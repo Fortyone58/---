@@ -1,0 +1,67 @@
+import pytest
+from fastapi import Request
+from fastapi.testclient import TestClient
+from sqlalchemy import create_engine, event, text
+from sqlalchemy.orm import sessionmaker
+
+from app.database import Base, get_db
+from app.main import app
+from app.seed import seed_database
+
+
+@pytest.fixture
+def sandbox(tmp_path):
+    target = tmp_path / "isolated-test.db"
+    engine = create_engine(f"sqlite:///{target.as_posix()}", connect_args={"check_same_thread": False, "timeout": 30})
+
+    @event.listens_for(engine, "connect")
+    def configure(connection, _record):
+        connection.execute("PRAGMA foreign_keys=ON")
+        connection.execute("PRAGMA journal_mode=WAL")
+
+    factory = sessionmaker(bind=engine, expire_on_commit=False)
+    Base.metadata.create_all(engine)
+    with factory.begin() as db:
+        seed_database(db)
+
+    def isolated_db(request: Request):
+        with factory() as db:
+            try:
+                if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
+                    db.execute(text("BEGIN IMMEDIATE"))
+                yield db
+                db.commit()
+            except Exception:
+                db.rollback()
+                raise
+
+    app.dependency_overrides[get_db] = isolated_db
+    client = TestClient(app)
+    yield client, factory
+    client.close()
+    app.dependency_overrides.clear()
+    engine.dispose()
+
+
+@pytest.fixture
+def client(sandbox):
+    return sandbox[0]
+
+
+@pytest.fixture
+def factory(sandbox):
+    return sandbox[1]
+
+
+@pytest.fixture
+def headers(client):
+    cache = {}
+
+    def login(username):
+        if username not in cache:
+            response = client.post("/api/auth/login", json={"username": username, "password": "Demo@2026"})
+            assert response.status_code == 200, response.text
+            cache[username] = {"Authorization": f"Bearer {response.json()['access_token']}"}
+        return cache[username]
+
+    return login

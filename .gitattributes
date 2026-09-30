@@ -1,0 +1,4 @@
+*.jpg binary
+# Keep the byte-exact archived policy evidence and its documented SHA-256 values.
+/data/policies/source-moe-2018.txt -text
+/data/policies/verified-policy.json -text

@@ -1,0 +1,26 @@
+[project]
+name = "qinghe-workstudy"
+version = "0.1.0"
+description = "Local campus work-study prototype"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "fastapi==0.115.12",
+  "uvicorn==0.34.2",
+  "sqlalchemy==2.0.41",
+  "pydantic==2.11.5",
+  "python-dotenv==1.1.0",
+  "PyJWT==2.10.1",
+  "pymysql==1.1.1",
+  "tzdata==2025.2",
+]
+
+[dependency-groups]
+dev = ["pytest==8.3.5", "httpx==0.28.1", "ruff==0.11.12"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

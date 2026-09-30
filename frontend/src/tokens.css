@@ -1,0 +1,17 @@
+:root {
+  --bg: #f7f8f3;
+  --ink: #2c4938;
+  --muted: #65745d;
+  --green: #17483d;
+  --orange: #d88c5f;
+  --line: #e7ebdf;
+  --el-color-primary: #17483d;
+  --el-color-primary-light-3: #608275;
+  --el-color-primary-light-5: #8da79c;
+  --el-color-primary-light-7: #bbcdc4;
+  --el-color-primary-light-8: #d2ddd5;
+  --el-color-primary-light-9: #ebf0e9;
+  --el-color-primary-dark-2: #123b32;
+  --el-border-radius-base: 9px;
+  --el-font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+}

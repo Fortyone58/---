@@ -1,0 +1,13 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+node_modules/
+frontend/dist/
+data/*.db*
+data/runtime/
+work/
+*.log
+*.pid
