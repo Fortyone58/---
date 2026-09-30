@@ -1,10 +1,13 @@
+import os
+
 import pytest
 from fastapi import Request
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine, event, text
+from sqlalchemy.engine import make_url
 from sqlalchemy.orm import sessionmaker
 
-from app.database import Base, get_db
+from app.database import Base, engine_options, get_db
 from app.main import app
 from app.seed import seed_database
 
@@ -12,12 +15,22 @@ from app.seed import seed_database
 @pytest.fixture
 def sandbox(tmp_path):
     target = tmp_path / "isolated-test.db"
-    engine = create_engine(f"sqlite:///{target.as_posix()}", connect_args={"check_same_thread": False, "timeout": 30})
+    mysql_url = os.getenv("QINGHE_TEST_MYSQL_URL")
+    if mysql_url:
+        parsed = make_url(mysql_url)
+        if (parsed.drivername != "mysql+pymysql" or parsed.host != "127.0.0.1" or parsed.port != 13307 or
+                not parsed.database or not parsed.database.startswith("qinghe_verify_") or
+                os.getenv("QINGHE_MYSQL_TEST_CONFIRM") != "temporary-instance"):
+            raise RuntimeError("MySQL tests require the guarded temporary instance; refused other database")
+        engine = create_engine(mysql_url, **engine_options(mysql_url))
+        Base.metadata.drop_all(engine)
+    else:
+        engine = create_engine(f"sqlite:///{target.as_posix()}", connect_args={"check_same_thread": False, "timeout": 30})
 
-    @event.listens_for(engine, "connect")
-    def configure(connection, _record):
-        connection.execute("PRAGMA foreign_keys=ON")
-        connection.execute("PRAGMA journal_mode=WAL")
+        @event.listens_for(engine, "connect")
+        def configure(connection, _record):
+            connection.execute("PRAGMA foreign_keys=ON")
+            connection.execute("PRAGMA journal_mode=WAL")
 
     factory = sessionmaker(bind=engine, expire_on_commit=False)
     Base.metadata.create_all(engine)
@@ -27,7 +40,7 @@ def sandbox(tmp_path):
     def isolated_db(request: Request):
         with factory() as db:
             try:
-                if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
+                if engine.dialect.name == "sqlite" and request.method in {"POST", "PUT", "PATCH", "DELETE"}:
                     db.execute(text("BEGIN IMMEDIATE"))
                 yield db
                 db.commit()

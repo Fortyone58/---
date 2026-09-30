@@ -135,7 +135,7 @@ class Weights(StrictModel):
 
 class Question(StrictModel):
     question: str = Field(min_length=2, max_length=500)
-    conversation_id: str = Field(default="policy-query", max_length=64)
+    conversation_id: str = Field(default="policy-query", min_length=1, max_length=64)
 
 
 class Section(StrictModel):

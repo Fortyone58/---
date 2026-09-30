@@ -12,6 +12,7 @@ const router = createRouter({
       { path: 'overview', component: () => import('./pages/Overview.vue'), meta: { title: '工作台', roles: all } },
       { path: 'jobs', component: () => import('./pages/Jobs.vue'), meta: { title: '岗位中心', roles: ['student', 'unit', 'admin', 'aid'] } },
       { path: 'matching', component: () => import('./pages/Matching.vue'), meta: { title: '为我匹配', roles: ['student'] } },
+      { path: 'assistant', component: () => import('./pages/Assistant.vue'), meta: { title: '岗位助手', roles: ['student'] } },
       { path: 'applications', component: () => import('./pages/Applications.vue'), meta: { title: '申请记录', roles: all } },
       { path: 'workhours', component: () => import('./pages/Workhours.vue'), meta: { title: '工时与薪酬', roles: all } },
       { path: 'policies', component: () => import('./pages/Policies.vue'), meta: { title: '政策原文查询', roles: all } },

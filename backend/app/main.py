@@ -1,6 +1,7 @@
 import re
 from collections import Counter
 from contextlib import asynccontextmanager
+from zoneinfo import ZoneInfo
 
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.exceptions import RequestValidationError
@@ -11,8 +12,10 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from . import config, schemas as s
+from .assistant import assistant_history, assistant_reply
 from .database import Base, engine, get_db
-from .models import Application, AuditLog, ChatLog, Job, JobSkill, PolicyDoc, SystemSetting, Unit, User, WorkHour
+from .models import Application, AuditLog, Job, JobSkill, PolicyDoc, SystemSetting, Unit, User, WorkHour
+from .policy import policy_conversations, policy_history, query_policy as answer_policy_query
 from .security import current_user, hash_password, make_token, require, verify_password
 from .services import (
     application_data, audit, check_work_date, freeze_salary, get_or_404, hours_data, job_data,
@@ -29,7 +32,7 @@ async def lifespan(_app):
     yield
 
 
-app = FastAPI(title="青禾 · 校园勤工助学", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="青禾 · 校园勤工助学", version=config.VERSION, lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173"],
                    allow_credentials=False, allow_methods=["*"], allow_headers=["Authorization", "Content-Type"])
 
@@ -56,7 +59,7 @@ async def integrity_error(_request, _error):
 
 @app.get("/api/ping")
 def ping():
-    return {"status": "ok", "project": "qinghe-sol", "version": "0.1.0"}
+    return {"status": "ok", "project": "qinghe-sol", "version": config.VERSION}
 
 
 @app.get("/api/auth/demo-accounts")
@@ -100,7 +103,9 @@ def me(user: User = Depends(current_user), db: Session = Depends(get_db)):
 def meta(_user: User = Depends(current_user)):
     return {"skills": config.SKILLS, "roles": config.ROLE_NAMES, "rule_version": config.RULE_VERSION,
             "areas": {"A": "A 区 · 教学与图书馆", "B": "B 区 · 行政与生活", "C": "C 区 · 实验与活动"},
-            "demo_month": "2026-09", "weekly_limit": 8, "monthly_limit": 40}
+            "demo_month": "2026-09", "weekly_limit": 8, "monthly_limit": 40,
+            "version": config.VERSION, "capabilities": {"policy": "original_query",
+            "job_assistant": "rule_assistant", "external_model_connected": False}}
 
 
 @app.get("/api/profiles/me")
@@ -175,8 +180,9 @@ def edit_job(identity: int, data: s.JobInput, user: User = Depends(current_user)
     before = job_data(db, job)
     if data.quota < occupied(db, job.id):
         raise HTTPException(409, "名额不得少于当前已录用人数（含已结束）")
-    if job.status == "published" and not data.slots:
-        raise HTTPException(400, "已发布岗位须保留有效工作时段")
+    if not data.slots and (job.status == "published" or
+                           (job.status == "closed" and job.close_reason == "full")):
+        raise HTTPException(400, "招聘中或满额自动关闭的岗位须保留有效工作时段")
     for key, value in data.model_dump(exclude={"skills"}).items():
         setattr(job, key, value)
     set_skills(db, job, data.skills)
@@ -543,10 +549,13 @@ def policy_detail(identity: int, user: User = Depends(current_user), db: Session
 @app.post("/api/policies", status_code=201)
 def import_policy(data: s.PolicyInput, user: User = Depends(current_user), db: Session = Depends(get_db)):
     require(user, "aid")
-    if data.verified_at.replace(tzinfo=None) > now():
+    verified_at = data.verified_at
+    if verified_at.tzinfo is not None:
+        verified_at = verified_at.astimezone(ZoneInfo("Asia/Shanghai")).replace(tzinfo=None)
+    if verified_at > now():
         raise HTTPException(400, "核验时间不能在未来")
     values = data.model_dump(mode="json")
-    values["verified_at"] = data.verified_at.replace(tzinfo=None)
+    values["verified_at"] = verified_at
     doc = PolicyDoc(**values, verified=True, imported_at=now())
     db.add(doc)
     db.flush()
@@ -557,42 +566,28 @@ def import_policy(data: s.PolicyInput, user: User = Depends(current_user), db: S
 
 @app.post("/api/qa")
 def query_policy(data: s.Question, user: User = Depends(current_user), db: Session = Depends(get_db)):
-    docs = list(db.scalars(select(PolicyDoc).where(PolicyDoc.verified.is_(True))))
-    school_question = any(term in data.question for term in ["我校", "本校", "我们学校", "我们大学"])
-    if school_question:
-        docs = [doc for doc in docs if doc.is_school_policy]
-    keywords = [term for term in ["每周", "每月", "固定岗位", "临时岗位", "酬金", "报酬", "工资",
-                                 "小时", "组织", "校外", "招聘", "原则", "第十", "第二十", "第三十"]
-                if term in data.question]
-    keywords.extend(re.findall(r"第[一二三四五六七八九十百\d]+条", data.question))
-    if not keywords:
-        keywords = [data.question]
-    hits = []
-    for doc in docs:
-        for section in doc.sections:
-            score = sum(term in section["text"] or term in section["location"] for term in keywords)
-            if score or data.question in doc.title:
-                hits.append({"score": score, "text": section["text"], "location": section["location"],
-                             "source": policy_data(doc)})
-    hits.sort(key=lambda hit: (-hit["score"], hit["source"]["id"], hit["location"]))
-    hits = [{k: v for k, v in hit.items() if k != "score"} for hit in hits[:5]]
-    response = {"mode": "original_query", "question": data.question, "citations": hits,
-                "answer": f"找到 {len(hits)} 段已核验原文，请结合条款上下文阅读。" if hits else
-                "当前知识库没有可靠依据。学校细则尚未收录时，请向学校资助中心确认。",
-                "notice": "政策原文查询；未调用大模型，不生成政策结论"}
-    db.add(ChatLog(user_id=user.id, conversation_id=data.conversation_id, question=data.question,
-                   response=response, created_at=now()))
-    return response
+    return answer_policy_query(db, user, data)
 
 
 @app.post("/api/assistant/messages")
-def assistant_messages(_data: s.Question, user: User = Depends(current_user)):
+def assistant_messages(data: s.Question, user: User = Depends(current_user), db: Session = Depends(get_db)):
     require(user, "student")
-    raise HTTPException(503, "首版未接入模型岗位助手，请使用岗位筛选与规则匹配")
+    return assistant_reply(db, user, data)
+
+
+@app.get("/api/assistant/history")
+def assistant_query_history(conversation_id: str | None = Query(default=None, min_length=1, max_length=64),
+                            user: User = Depends(current_user), db: Session = Depends(get_db)):
+    require(user, "student")
+    return assistant_history(db, user, conversation_id)
 
 
 @app.get("/api/qa/history")
-def query_history(user: User = Depends(current_user), db: Session = Depends(get_db)):
-    rows = db.scalars(select(ChatLog).where(ChatLog.user_id == user.id).order_by(ChatLog.id.desc()).limit(20))
-    return {"items": [{"question": row.question, "response": row.response, "created_at": stamp(row.created_at)}
-                      for row in rows]}
+def query_history(conversation_id: str | None = Query(default=None, min_length=1, max_length=64),
+                  user: User = Depends(current_user), db: Session = Depends(get_db)):
+    return policy_history(db, user, conversation_id)
+
+
+@app.get("/api/qa/conversations")
+def query_conversations(user: User = Depends(current_user), db: Session = Depends(get_db)):
+    return policy_conversations(db, user)

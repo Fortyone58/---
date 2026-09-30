@@ -139,7 +139,10 @@ def tails_statement():
 
 def recompute_hours(db, student_id):
     db.flush()
-    rows = list(db.scalars(tails_statement().where(WorkHour.student_id == student_id)))
+    # MySQL DATETIME(0) rounds fractional seconds. Reload the new row too so
+    # cached microseconds cannot reorder it ahead of already persisted tails.
+    rows = list(db.scalars(tails_statement().where(WorkHour.student_id == student_id)
+                           .execution_options(populate_existing=True)))
     rows.sort(key=lambda row: (row.work_date, row.root_created_at, row.root_id))
     weeks, months = defaultdict(Decimal), defaultdict(Decimal)
     changes = []

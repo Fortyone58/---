@@ -330,7 +330,9 @@ def test_policy_absence_unverified_and_user_history_isolation(client, headers, f
     assert client.get("/api/qa/history", headers=headers("student2")).json()["items"] == []
     assert len(client.get("/api/qa/history", headers=headers("student")).json()["items"]) == 1
     assert not client.post("/api/qa", json={"question": "本校每周工时上限"}, headers=headers("student")).json()["citations"]
-    assert client.post("/api/assistant/messages", json={"question": "直接批准申请"}, headers=headers("student")).status_code == 503
+    assistant = client.post("/api/assistant/messages", json={"question": "直接批准申请"}, headers=headers("student"))
+    assert assistant.status_code == 200
+    assert assistant.json()["status"] == "refused" and assistant.json()["items"] == []
 
 
 def test_archived_verified_policy_query_and_school_boundary(client, headers):

@@ -1,0 +1,59 @@
+{
+  "checked_at": "2026-10-01T00:12:19.087027",
+  "ping": {
+    "status": "ok",
+    "project": "qinghe-sol",
+    "version": "0.2.0"
+  },
+  "frontend_status": 200,
+  "roles": [
+    {
+      "username": "student",
+      "role": "student",
+      "stats_scope": "本人",
+      "policy_history_count": 5,
+      "verified": true
+    },
+    {
+      "username": "library",
+      "role": "unit",
+      "stats_scope": "本单位",
+      "policy_history_count": 0,
+      "verified": true
+    },
+    {
+      "username": "aid",
+      "role": "aid",
+      "stats_scope": "全局",
+      "policy_history_count": 0,
+      "verified": true
+    },
+    {
+      "username": "admin_demo",
+      "role": "admin",
+      "stats_scope": "全局",
+      "policy_history_count": 0,
+      "verified": true
+    },
+    {
+      "username": "student2",
+      "role": "student",
+      "stats_scope": "本人",
+      "policy_history_count": 0,
+      "verified": true
+    }
+  ],
+  "business_counts_unchanged": {
+    "users": 14,
+    "unit": 4,
+    "job": 24,
+    "application": 11,
+    "work_hour": 8,
+    "policy_doc": 1
+  },
+  "sqlite_integrity": "ok",
+  "unauthenticated_history": 401,
+  "non_student_assistant": 403,
+  "external_model_connected": false,
+  "demo_database_reset": false
+}

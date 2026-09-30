@@ -10,6 +10,7 @@ const menu = computed(() => {
   const base = [{ path: '/overview', name: '工作台', icon: 'grid' }]
   if (role === 'student') return [...base,
     { path: '/jobs', name: '发现岗位', icon: 'briefcase' }, { path: '/matching', name: '为我匹配', icon: 'sparkles' },
+    { path: '/assistant', name: '岗位助手', icon: 'send' },
     { path: '/applications', name: '我的申请', icon: 'files' }, { path: '/workhours', name: '工时与薪酬', icon: 'clock' },
     { path: '/policies', name: '政策原文查询', icon: 'book' }, { path: '/profile', name: '我的档案', icon: 'user', group: true }]
   if (role === 'unit') return [...base,
@@ -40,7 +41,7 @@ async function switchAccount(username) {
       <router-link to="/overview" class="brand" @click="mobileMenu = false"><span class="brand-icon"><Icon name="leaf" :size="24" /></span><span><b>青禾</b><small>校园勤工助学</small></span></router-link>
       <span class="nav-caption">{{ roleNames[state.user.role] }}空间</span>
       <nav aria-label="主导航"><router-link v-for="item in menu" :key="item.path" :to="item.path" class="nav-link" :class="{ 'nav-group': item.group }" @click="mobileMenu = false"><Icon :name="item.icon" :size="19" /><span>{{ item.name }}</span><i v-if="route.path === item.path"></i></router-link></nav>
-      <div class="sidebar-bottom"><div class="help-card"><span class="help-card-icon"><Icon name="graduate" :size="26" /></span><b>第一次使用青禾？</b><p>从发现岗位到记录成长，<br>了解完整体验流程。</p><button class="text-button" @click="help = true">查看使用指南<Icon name="right" :size="16" /></button></div><div class="sidebar-foot"><span class="live-dot"></span>本地体验版 <span>v0.1</span></div></div>
+      <div class="sidebar-bottom"><div class="help-card"><span class="help-card-icon"><Icon name="graduate" :size="26" /></span><b>第一次使用青禾？</b><p>从发现岗位到记录成长，<br>了解完整体验流程。</p><button class="text-button" @click="help = true">查看使用指南<Icon name="right" :size="16" /></button></div><div class="sidebar-foot"><span class="live-dot"></span>本地体验版 <span>v0.2</span></div></div>
     </aside>
     <div class="main-shell">
       <header class="topbar"><div class="breadcrumb"><button class="icon-button mobile-toggle" aria-label="打开导航菜单" @click="mobileMenu = !mobileMenu"><Icon name="menu" /></button><span>校园服务</span><Icon name="chevron" :size="14" /><strong>{{ route.meta.title }}</strong></div>
@@ -53,6 +54,7 @@ async function switchAccount(username) {
     </div>
     <el-drawer v-model="help" title="欢迎使用青禾" size="min(460px, 100%)">
       <p class="muted">这是可保存数据的本地原型。右上角可以切换演示身份，体验完整业务流。</p>
+      <p class="muted">学生可用“岗位助手”描述区域、时段、技能和工资要求，再打开岗位详情手动申请。政策页面支持自然语言查原文和同一会话追问；均未接入外部大模型。</p>
       <ol class="guide-list"><li><b>学生：发现与申请</b><p>在“发现岗位”打开详情，填写理由提交。我的申请可查看进度，待审核或已批准时可以撤销。</p></li><li><b>用工单位：审核与上岗</b><p>切换图书馆或实验室账号，审核本单位申请，依次批准、确认上岗，再登记当天工时。</p></li><li><b>资助中心：确认与核实</b><p>确认学生演示困难等级；对超限工时核实。核实后的待核金额会计入正常估算。</p></li><li><b>系统管理员：启用与追踪</b><p>启用新注册学生，创建单位账号，调整匹配权重，在操作审计查看写入记录。</p></li></ol>
       <div class="notice"><Icon name="info" /><span>初始工时在 2026 年 9 月。修改会保存；想恢复初始场景，先停止服务再双击“重置演示数据”。</span></div>
     </el-drawer>

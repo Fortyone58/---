@@ -39,6 +39,6 @@ async function submit() {
       </form>
       <div class="login-register"><span>{{ registering ? '已有账号？' : '想体验注册流程？' }}</span><button class="text-button" @click="toggle">{{ registering ? '返回登录' : '创建学生账号' }}<Icon name="arrow" :size="15" /></button></div>
       <div class="demo-note"><Icon name="info" :size="18" /><span>本地体验版 · 全部为模拟账号与业务数据<br>演示密码：Demo@2026</span></div>
-    </div><div class="login-side-footer">让课余时间，成为成长的机会。<span>v0.1</span></div></section>
+    </div><div class="login-side-footer">让课余时间，成为成长的机会。<span>v0.2</span></div></section>
   </div>
 </template>
