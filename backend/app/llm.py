@@ -6,6 +6,7 @@ import os
 import tempfile
 import threading
 from dataclasses import dataclass
+from pathlib import Path
 from urllib.parse import urlsplit
 
 import httpx
@@ -32,6 +33,10 @@ PRESETS = [
 SETTINGS_LOCK = threading.RLock()
 CONFIG_KEYS = ("LLM_ENABLED", "LLM_PROVIDER", "LLM_BASE_URL", "LLM_API_KEY", "LLM_MODEL",
                "LLM_VERIFIED_FINGERPRINT")
+
+
+def _settings_path():
+    return Path(os.getenv("QINGHE_DOTENV_PATH", config.ROOT / ".env"))
 
 
 @dataclass(frozen=True, repr=False)
@@ -61,7 +66,7 @@ class ModelSettings:
 
 def get_settings():
     with SETTINGS_LOCK:
-        values = dotenv_values(config.ROOT / ".env")
+        values = dotenv_values(_settings_path())
         def read(key, fallback=""):
             return str(values.get(key, os.getenv(key, fallback)) or fallback)
         return ModelSettings(read("LLM_ENABLED", "false").lower() == "true",
@@ -92,8 +97,9 @@ def agent_status(settings=None):
 
 def _write_values(changes):
     """Atomic replacement preserves unrelated database/JWT/bootstrap settings."""
-    path = config.ROOT / ".env"
-    descriptor, filename = tempfile.mkstemp(prefix=".ai-config-", dir=config.ROOT)
+    path = _settings_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, filename = tempfile.mkstemp(prefix=".ai-config-", dir=path.parent)
     try:
         with os.fdopen(descriptor, "w", encoding="utf-8", newline="") as stream:
             stream.write(path.read_text(encoding="utf-8") if path.exists() else "")
