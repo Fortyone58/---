@@ -20,6 +20,8 @@ try {
         Push-Location $backend
         try { & uv sync --frozen; if ($LASTEXITCODE -ne 0) { throw 'Backend dependency installation failed.' } } finally { Pop-Location }
     }
+    & $python (Join-Path $PSScriptRoot 'mysql_runtime.py') start
+    if ($LASTEXITCODE -ne 0) { throw 'Managed MySQL startup failed. The existing MySQL service was not changed.' }
     Push-Location $backend
     try { & $python -m app.seed; if ($LASTEXITCODE -ne 0) { throw 'Demo initialization failed.' } } finally { Pop-Location }
     $node = (Get-Command node -ErrorAction Stop).Source

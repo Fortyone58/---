@@ -1,0 +1,20 @@
+{
+  "checked_at": "2026-10-01T19:24:14.369763",
+  "browser": "Codex In-app Browser",
+  "student_overview": true,
+  "assistant_existing_history": true,
+  "policy_existing_conversation_and_article26": true,
+  "unit_overview": true,
+  "unit_hour_correction_chain_8_to_6": true,
+  "warn_or_error_logs": [],
+  "table_hashes_unchanged_after_browser": true,
+  "new_business_or_query_rows": false,
+  "screenshots": [
+    "01-student-overview.png",
+    "02-assistant-history.png",
+    "03-policy-history.png",
+    "04-unit-overview.png",
+    "05-hour-correction-history.png"
+  ],
+  "experience_page_left_in_student_role": true
+}

@@ -1,0 +1,41 @@
+{
+  "checked_on": "2026-10-01",
+  "independent_live_quote_checks": [
+    {
+      "id": "S01",
+      "final_url": "https://zb.wids.edu.cn/view/32234.html",
+      "all_quotes_present": true
+    },
+    {
+      "id": "S03",
+      "final_url": "https://xgb.wids.edu.cn/view/28689.html",
+      "all_quotes_present": true
+    },
+    {
+      "id": "S05",
+      "final_url": "https://msg.wids.edu.cn/view/26272.html",
+      "all_quotes_present": true
+    },
+    {
+      "id": "S08",
+      "final_url": "http://www.moe.gov.cn/srcsite/A05/s7505/201809/t20180903_347076.html",
+      "all_quotes_present": true
+    },
+    {
+      "id": "S14",
+      "final_url": "http://www.moe.gov.cn/srcsite/A05/s7505/202511/t20251118_1420660.html",
+      "all_quotes_present": true
+    }
+  ],
+  "S13_primary_browser_review": {
+    "source_url": "https://www.hubei.gov.cn/zfwj/ezbf/202512/t20251226_5842830.shtml",
+    "document_number": "鄂政办发〔2025〕44号",
+    "status_as_shown": "有效",
+    "effective_from": "2025-12-01",
+    "publication_date": "2025-12-26",
+    "body_and_first_tier_attachment_visually_checked": true,
+    "first_tier": "武汉市区；2400元/月、24元/小时",
+    "not_school_wage": true
+  },
+  "archived_file_hashes_checked": 44
+}

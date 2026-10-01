@@ -59,7 +59,8 @@ async def integrity_error(_request, _error):
 
 @app.get("/api/ping")
 def ping():
-    return {"status": "ok", "project": "qinghe-sol", "version": config.VERSION}
+    return {"status": "ok", "project": "qinghe-sol", "version": config.VERSION,
+            "database": engine.dialect.name}
 
 
 @app.get("/api/auth/demo-accounts")

@@ -2,3 +2,6 @@
 # Keep the byte-exact archived policy evidence and its documented SHA-256 values.
 /data/policies/source-moe-2018.txt -text
 /data/policies/verified-policy.json -text
+# Verified source bytes must survive checkout unchanged for SHA-256 validation.
+docs/research/sources/** -text -diff
+docs/research/curated/** -text -diff

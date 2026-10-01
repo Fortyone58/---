@@ -1,6 +1,6 @@
 # 数据与接口
 
-10张表沿用计划：users、unit、job、application、job_skill、policy_doc、chat_log、work_hour、system_setting、audit_log。字段定义以backend/app/models.py为准；迁移版本0001。
+10张表沿用计划：users、unit、job、application、job_skill、policy_doc、chat_log、work_hour、system_setting、audit_log。字段定义以backend/app/models.py为准；当前迁移版本0002。0001初始建表，0002显式升级MySQL时间列为DATETIME(6)，SQLite时间存储不变。
 
 | 数据 | 关键口径 |
 | --- | --- |
@@ -20,7 +20,7 @@
 
 | 接口 | 范围 / 写入 |
 | --- | --- |
-| GET /api/ping | 启动检查，无身份，无敏感配置 |
+| GET /api/ping | 启动检查，无身份；包含database=mysql/sqlite，不返回连接凭据 |
 | GET /api/meta | 词表、角色、规则版本与实际能力；policy=original_query、job_assistant=rule_assistant、external_model_connected=false |
 | POST /api/auth/register、login；GET me | 注册只能student待启用；凭据错401，未启用403；JWT只绑定用户ID |
 | GET/PUT /api/profiles/me | 学生本人可改姓名、专业、技能、时段、区域；额外身份字段拒绝 |
@@ -39,6 +39,8 @@
 | POST /api/assistant/messages | 仅学生；独立解析本次条件，实际岗位与四维分数，最多8条；只追加查询日志，不写业务表或成功业务审计 |
 | GET /api/assistant/history?conversation_id=... | 最近20条本人助手问题；可选会话筛选；按当前公开岗位和本人申请状态重新计算，标记historical=true |
 
-SQLite写请求在依赖入口BEGIN IMMEDIATE。MySQL应用连接使用READ COMMITTED，锁定岗位保护名额、锁学生保护跨岗累计，并锁当前链尾；工时重算在flush后统一读取持久化的排序字段，避免DATETIME秒精度与内存微秒混用。v0.2在独立临时MySQL 8.0.45完成92项回归，包括2名额/3批准、两单位各5小时并发。报告不代表已有SQLite数据迁移或用户现有MySQL服务验收。
+当前本机体验库使用MySQL8.0.45专用13308实例，连接READ COMMITTED，锁岗位保护名额、锁学生保护跨岗累计，并锁当前链尾；工时重算在flush后统一读取持久化排序字段。所有时间列使用DATETIME(6)，保留原SQLite微秒。SQLite备选写请求仍使用BEGIN IMMEDIATE。最新临时MySQL100项回归包含名额/跨单位并发、数据复制、结构升级和隔离复位；10表112行正式迁移后及重启后，6身份40接口与SQLite结果完全一致。SQL备份在临时13307恢复校验通过。现有3306服务未改动。详见acceptance/REPORT-MySQL.md。
+
+研究目录中的14条官方材料尚未写入policy_doc，当前仍只有原有已核验教育部2018年办法。后续导入前需支持学校/国家/劳动范围、截止时间、效力待确认和历史资料筛选；不能以verified=true取代这些状态。
 
 助手返回字段包含kind、mode、status、answer、items、filters、warnings、missing_profile、total、shown、notice。status为matched/partial/no_match/needs_clarification/refused/help。needs_clarification的parsed_filters是已识别但未执行的条件。工资过滤必须标明时薪或固定月基准，不把固定工资当成时薪。时间条件判断至少一条完整岗位时段，其他排班以四维匹配的覆盖分钟为准。每条问题独立，不借历史补筛选条件；这不是模型动作Schema。

@@ -1,0 +1,245 @@
+{
+  "requested_url": "http://www.moe.gov.cn/srcsite/A02/s7049/201904/t20190423_379235.html",
+  "final_url": "http://www.moe.gov.cn/srcsite/A02/s7049/201904/t20190423_379235.html",
+  "fetched_at_utc": "2026-10-01T10:49:24.479828+00:00",
+  "content_type": "text/html",
+  "sha256": "c19d38e74efc4cc353fb9e007bb8aa37de6d4858c5fb55da5bf13c0f8ec0a9d3",
+  "bytes": 27012,
+  "id": "4005468d7453",
+  "text_path": "C:\\Users\\XOS\\Desktop\\毕设\\sol\\docs\\research\\sources\\4005468d7453.txt",
+  "raw_path": "C:\\Users\\XOS\\Desktop\\毕设\\sol\\docs\\research\\sources\\4005468d7453.html",
+  "links": [
+    {
+      "url": "https://zwfw.moe.gov.cn/portal/trs/login?appId=trs&redirectUrl=http://www.moe.gov.cn/hd/login/cas&state=",
+      "text": "登录"
+    },
+    {
+      "url": "http://en.moe.gov.cn/",
+      "text": "English"
+    },
+    {
+      "url": "http://ru.moe.gov.cn/",
+      "text": "Русский"
+    },
+    {
+      "url": "http://jp.moe.gov.cn/",
+      "text": "日本語"
+    },
+    {
+      "url": "http://de.moe.gov.cn/",
+      "text": "Deutsch"
+    },
+    {
+      "url": "http://fr.moe.gov.cn/",
+      "text": "Français"
+    },
+    {
+      "url": "http://es.moe.gov.cn/",
+      "text": "Español"
+    },
+    {
+      "url": "http://ar.moe.gov.cn/",
+      "text": "العربية"
+    },
+    {
+      "url": "https://so.moe.gov.cn/",
+      "text": "搜索"
+    },
+    {
+      "url": "javascript:void(0);",
+      "text": "无障碍浏览"
+    },
+    {
+      "url": "http://www.moe.gov.cn/",
+      "text": ""
+    },
+    {
+      "url": "http://en.moe.gov.cn/",
+      "text": "English"
+    },
+    {
+      "url": "http://ru.moe.gov.cn/",
+      "text": "Русский"
+    },
+    {
+      "url": "http://jp.moe.gov.cn/",
+      "text": "日本語"
+    },
+    {
+      "url": "http://de.moe.gov.cn/",
+      "text": "Deutsch"
+    },
+    {
+      "url": "http://fr.moe.gov.cn/",
+      "text": "Français"
+    },
+    {
+      "url": "http://es.moe.gov.cn/",
+      "text": "Español"
+    },
+    {
+      "url": "http://ar.moe.gov.cn/",
+      "text": "العربية"
+    },
+    {
+      "url": "http://www.moe.gov.cn/jyb_sy/sy_wb/201301/t20130129_147290.html",
+      "text": "微言教育"
+    },
+    {
+      "url": "javascript:void(0);",
+      "text": "无障碍浏览"
+    },
+    {
+      "url": "javascript:void(0);",
+      "text": "登录"
+    },
+    {
+      "url": "javascript:void(0);",
+      "text": "注册"
+    },
+    {
+      "url": "javascript:void(0);",
+      "text": ""
+    },
+    {
+      "url": "https://zwfw.moe.gov.cn/portal/trs/login?appId=trs&redirectUrl=http://www.moe.gov.cn/hd/login/cas&state=",
+      "text": "个人登录"
+    },
+    {
+      "url": "https://zwfw.moe.gov.cn/portal/trs/login?appId=trs&redirectUrl=http://www.moe.gov.cn/hd/login/cas&refer=CP&loginType=2&state=",
+      "text": "法人登录"
+    },
+    {
+      "url": "https://rz.moe.gov.cn/tacs-uc/naturalMan/register",
+      "text": "个人注册"
+    },
+    {
+      "url": "https://rz.moe.gov.cn/tacs-uc/corp/register",
+      "text": "法人注册"
+    },
+    {
+      "url": "http://www.moe.gov.cn/",
+      "text": "首页"
+    },
+    {
+      "url": "http://www.moe.gov.cn/jyb_zzjg/",
+      "text": "机构"
+    },
+    {
+      "url": "http://www.moe.gov.cn/jyb_xwfb/",
+      "text": "新闻"
+    },
+    {
+      "url": "http://www.moe.gov.cn/jyb_xxgk/",
+      "text": "公开"
+    },
+    {
+      "url": "https://zwfw.moe.gov.cn/",
+      "text": "服务"
+    },
+    {
+      "url": "http://www.moe.gov.cn/jyb_hygq/",
+      "text": "互动"
+    },
+    {
+      "url": "http://www.moe.gov.cn/jyb_sjzl/",
+      "text": "文献"
+    },
+    {
+      "url": "http://www.moe.gov.cn",
+      "text": "首页"
+    },
+    {
+      "url": "http://www.moe.gov.cn/jyb_xxgk/",
+      "text": "公开"
+    },
+    {
+      "url": "javascript:;",
+      "text": "下载"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A02/s5911/moe_621/199603/t19960309_81895.html",
+      "text": "小学管理规程"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A02/s5911/moe_621/201511/t20151119_220011.html",
+      "text": "特殊教育学校暂行规程"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A02/s5911/moe_621/200009/t20000923_180473.html",
+      "text": "《教师资格条例》实施办法"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A02/s5911/moe_621/199904/t19990408_81867.html",
+      "text": "高等学校知识产权保护管理规定"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A02/s5911/moe_621/200406/t20040602_180471.html",
+      "text": "中华人民共和国中外合作办学条例实施办法"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A02/s5911/moe_621/199108/t19910821_81925.html",
+      "text": "社会力量办学印章管理暂行规定(已废止)"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A05/s7052/200706/t20070626_181382.html",
+      "text": "教育部 财政部关于认真做好高等学校家庭经济困难学生认定工作的指导意见"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A15/moe_776/s3258/201704/t20170428_303388.html",
+      "text": "教育部 中国残联关于印发《残疾人参加普通高等学校招生全国统一考试管理规定》的通知"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A06/s3732/201808/t20180807_344610.html",
+      "text": "教育部关于普通高中学业水平考试的实施意见"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A07/moe_950/201005/t20100513_108633.html",
+      "text": "教育部关于印发《中等职业学校学生学籍管理办法》的通知"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A20/moe_851/200707/t20070716_77916.html",
+      "text": "教育部、财政部关于印发《国家公派出国留学研究生管理规定（试行）》的通知"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A10/s7151/200105/t20010514_147248.html",
+      "text": "教育部关于印发《关于首次认定教师资格工作若干问题的意见》的通知"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A10/s7151/201308/t20130821_156643.html",
+      "text": "教育部关于印发《中小学教师资格考试暂行办法》《中小学教师资格定期注册暂行办法》的通知"
+    },
+    {
+      "url": "http://www.moe.gov.cn/srcsite/A03/s3014/201701/t20170118_295144.html",
+      "text": "教育部 人力资源社会保障部 工商总局关于印发《营利性民办学校监督管理实施细则》的通知"
+    },
+    {
+      "url": "http://bszs.conac.cn/sitename?method=show&id=05FDD4B7206C29B0E053012819AC4C18",
+      "text": ""
+    },
+    {
+      "url": "https://zfwzgl.www.gov.cn/exposure/jiucuo.html?site_code=bm05000001&url=",
+      "text": ""
+    },
+    {
+      "url": "http://www.moe.gov.cn/jyb_sy/s3634/201005/t20100504_87292.html",
+      "text": "网站声明"
+    },
+    {
+      "url": "http://www.moe.gov.cn/jyb_sy/s3636/202404/t20240411_1125026.html",
+      "text": "网站地图"
+    },
+    {
+      "url": "http://www.moe.gov.cn/jyb_sy/s3635/201611/t20161129_290403.html",
+      "text": "联系我们"
+    },
+    {
+      "url": "https://beian.miit.gov.cn/",
+      "text": "京ICP备10028400号-1"
+    },
+    {
+      "url": "http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010202007625",
+      "text": "京公网安备11010202007625号"
+    }
+  ]
+}

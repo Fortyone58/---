@@ -11,7 +11,12 @@ foreach ($port in @(5173,8000)) {
 }
 Push-Location (Join-Path $projectRoot 'backend')
 try {
+    & '.\.venv\Scripts\python.exe' (Join-Path $PSScriptRoot 'mysql_runtime.py') start
+    if ($LASTEXITCODE -ne 0) { throw 'Managed MySQL startup failed; no data reset attempted.' }
     & '.\.venv\Scripts\python.exe' -m app.seed --reset --confirm campus-demo
     if ($LASTEXITCODE -ne 0) { throw 'Reset was refused or failed.' }
-} finally { Pop-Location }
+} finally {
+    & '.\.venv\Scripts\python.exe' (Join-Path $PSScriptRoot 'mysql_runtime.py') stop
+    Pop-Location
+}
 Write-Host 'Demo restored. Run the start launcher to continue.' -ForegroundColor Green

@@ -5,6 +5,7 @@ edits .env, or prints credentials. Keep generated artifacts under ignored work/.
 """
 
 import argparse
+import hashlib
 import json
 import os
 import secrets
@@ -23,6 +24,50 @@ ROOT = Path(__file__).resolve().parents[1]
 PORT = 13307
 
 
+def verify_restore(binary, run_dir, password, migration_report):
+    """Restore a known demo dump into the disposable server, then compare all rows."""
+    report = json.loads(migration_report.read_text(encoding="utf-8"))
+    if (report.get("project") != str(ROOT) or report.get("destination") != "mysql" or
+            report.get("database") != "qinghe_sol" or report.get("port") != 13308):
+        raise RuntimeError("Restore verification requires this project's completed migration report.")
+    dump = Path(report["mysql_backup"]["path"]).resolve()
+    if dump.parent != (ROOT / "work/backups").resolve() or not dump.name.startswith("mysql-demo-"):
+        raise RuntimeError("Restore input must be this project's saved demonstration dump.")
+    if hashlib.sha256(dump.read_bytes()).hexdigest() != report["mysql_backup"]["sha256"]:
+        raise RuntimeError("Backup checksum does not match; restore refused.")
+    private_options = run_dir / "restore.cnf"
+    private_options.write_text(f"[client]\nuser=verify_admin\npassword={password}\n"
+                               f"host=127.0.0.1\nport={PORT}\n", encoding="utf-8")
+    try:
+        with dump.open("rb") as content:
+            restored = subprocess.run([str(binary.with_name("mysql.exe")),
+                                       f"--defaults-extra-file={private_options}",
+                                       "--default-character-set=utf8mb4"], stdin=content,
+                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                      creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
+                                      timeout=60, check=False)
+        if restored.returncode:
+            raise RuntimeError("Official MySQL dump restore failed in the disposable server.")
+    finally:
+        private_options.unlink(missing_ok=True)
+    from migrate_to_mysql import table_manifest
+    from app.database import engine_options
+    restore_url = URL.create("mysql+pymysql", username="verify_admin", password=password,
+                             host="127.0.0.1", port=PORT, database="qinghe_sol", query={"charset": "utf8mb4"})
+    restored_engine = create_engine(restore_url, **engine_options(restore_url))
+    try:
+        manifest = table_manifest(restored_engine)
+    finally:
+        restored_engine.dispose()
+    if manifest != report["post_upgrade_tables"]:
+        raise RuntimeError("Restored table rows do not match the migration backup manifest.")
+    evidence = {"at": datetime.now().isoformat(), "server": "disposable MySQL 8", "port": PORT,
+                "source_backup_sha256": report["mysql_backup"]["sha256"], "database": "qinghe_sol",
+                "tables": manifest, "all_rows_identical": True, "production_database_changed": False}
+    (ROOT / "docs/acceptance/mysql-restore.json").write_text(json.dumps(evidence, indent=2), encoding="utf-8")
+    print("SQL backup restored on temporary port 13307: all 10 tables match the saved row hashes.", flush=True)
+
+
 def main():
     # PowerShell may otherwise use GBK while pytest emits UTF-8 diagnostics.
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -32,6 +77,8 @@ def main():
     parser.add_argument("--junit-output", default="../docs/acceptance/mysql-tests-v02.xml")
     parser.add_argument("--work-dir", default=str(ROOT / "work/mysql-verify"),
                         help="Temporary server files; native Windows MySQL requires an ASCII path")
+    parser.add_argument("--restore-demo-dump", type=Path,
+                        help="After isolated tests, verify the dump described in a completed migration report")
     parser.add_argument("targets", nargs="*", help="Optional pytest paths / flags")
     args = parser.parse_args()
     binary = Path(args.mysqld).resolve()
@@ -93,7 +140,7 @@ def main():
                 raise RuntimeError(f"Temporary MySQL connection failed in 45 seconds (code {last_error_code})")
             bootstrap.unlink(missing_ok=True)
             with connection.cursor() as cursor:
-                cursor.execute(f"CREATE DATABASE `{database}` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci")
+                cursor.execute(f"CREATE DATABASE `{database}` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs")
                 cursor.execute("CREATE USER 'campus_verify'@'127.0.0.1' IDENTIFIED BY %s", (user_password,))
                 cursor.execute(f"GRANT ALL PRIVILEGES ON `{database}`.* TO 'campus_verify'@'127.0.0.1'")
                 cursor.execute("SELECT VERSION(), @@transaction_isolation")
@@ -125,6 +172,8 @@ def main():
                                                           "application_isolation": actual_isolation,
                                                           "pytest_exit_code": code}, indent=2), encoding="utf-8")
             print(output, flush=True)
+            if code == 0 and args.restore_demo_dump:
+                verify_restore(binary, run_dir, root_password, args.restore_demo_dump.resolve())
         finally:
             bootstrap.unlink(missing_ok=True)
             if connection is not None:

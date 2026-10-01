@@ -1,6 +1,6 @@
-# 青禾 · 校园勤工助学服务原型 v0.2
+# 青禾 · 校园勤工助学服务原型 v0.2 · MySQL版
 
-根据《校园勤工助学服务智能体总计划 v1.1》实现的本地体验系统。Vue 3 + Vite + Element Plus；FastAPI + SQLAlchemy。v0.2 新增条件岗位助手、政策口语查询与会话追问，并完成隔离 MySQL 8 回归。业务数据和账号均为模拟，学校规则与导师要求仍待确认。
+根据《校园勤工助学服务智能体总计划 v1.1》实现的本地体验系统。Vue 3 + Vite + Element Plus；FastAPI + SQLAlchemy + MySQL 8。原SQLite数据已经保留迁入MySQL。v0.2包含条件岗位助手、政策口语查询与会话追问。业务数据和账号均为模拟，学校具体规则与导师要求仍待确认。
 
 ## 直接体验
 
@@ -8,7 +8,7 @@
 2. 登录页选学生、用工单位、资助中心或管理员，再点击“进入我的工作台”。账号和演示密码会填好。
 3. 右上角头像菜单可以切换演示身份。数据会保存，退出或刷新不会丢失。
 
-当前电脑已安装依赖并生成前端构建；启动无需下载模型或配置数据库。后台进程不弹额外窗口，运行日志在 work/runtime。只绑定本机 127.0.0.1。
+当前电脑已安装依赖并生成前端构建，MySQL已配置。启动脚本自动启动本项目MySQL（13308）、后端（8000）和前端（5173）。后台进程不弹额外窗口，应用日志在work/runtime；数据库目录以私有.env的MYSQL_RUNTIME_DIR为准。只绑定本机127.0.0.1。具体备份、配置和回退步骤见[MySQL使用说明](docs/MYSQL.md)。
 
 ## 建议先这样试
 
@@ -44,9 +44,9 @@
 
 ## 停止和复位
 
-- 双击 **停止服务.bat**：只停止本项目记录、PID及启动时间匹配的两个进程。
+- 双击 **停止服务.bat**：停止本项目记录的两个Web进程及经认证、数据目录核对的专用MySQL。
 - 双击 **重置演示数据.bat**，输入 `RESET`：停止本项目服务，先备份数据库到 work/backups，再恢复固定模拟数据及已核验政策。完成后双击启动体验。
-- 复位仅允许本项目 data/campus_demo.db，其他路径、非demo环境或MySQL均拒绝重置。重置部署日志在 work/reset-log.jsonl，与业务审计分开。
+- 复位仅允许本项目的本地SQLite文件或已配置的专用MySQL演示库；非demo、外部数据库或归属不符均拒绝。MySQL先保存可恢复的SQL备份再复位。重置部署日志在work/reset-log.jsonl，与业务审计分开。本次切换没有复位原数据。
 - 请勿在工作台演示中同时运行自动化测试或手动编辑数据库。pytest自动使用临时隔离库。
 
 初始全局9月值：正常45h、待核3h；正常1006元、待核75元。学生林同学：正常7h / 126元，待核3h / 75元。工资为应结算估算值，不代表发薪。
@@ -60,9 +60,9 @@
 - 已核验教育部2018年政策的33条本地原文查询、主题别名、准确条款编号、有限追问、本人会话历史、出处展示和资助中心导入。学校细则缺失时不推测。
 - 学生条件岗位助手：单位、区域、技能及排除条件、固定/临时、工资下限、周几时段、标题关键词；逐项显示生效条件，工资单位不明时要求补充，拒绝代申请与业务写入。
 - 助手仅查询当前本人可申请岗位，展示最多8条；最近20条提问历史按当前岗位重新计算。政策和岗位助手的查询日志分别隔离，均限本人。
-- 一键启动、停止、备份复位。v0.2 SQLite：90 passed / 2 个MySQL专用测试跳过；临时MySQL 8.0.45：92 passed。真实浏览器与启动检查见 docs/acceptance/REPORT-v02.md；v0.1历史报告保留。
+- 一键启动、停止、备份复位。MySQL切换版：SQLite96通过/4项MySQL专用跳过；临时MySQL8.0.45全量100通过。10张表112条记录完整迁移，6身份40个接口迁移前后一致；停止重启后再次一致；SQL备份在临时实例恢复并逐表比对。见[本次验收](docs/acceptance/REPORT-MySQL.md)，v0.1/v0.2历史报告保留。
 
-**实现边界：**默认体验库仍为SQLite；MySQL空库、种子、接口和并发已在专用临时实例验证，现有演示数据尚未迁入MySQL。政策与岗位助手均使用明确规则和实际原文，未调用大模型；完整RAG、BGE、Chroma未实施。本轮独立审查覆盖新模块与关键业务边界，尚不代表整份计划的G2/G3全面验收。完整答辩录屏、学校规则与导师确认仍待补齐。
+**实现边界：**本机体验已使用MySQL，原SQLite快照保留。政策与岗位助手使用明确规则和实际原文，未调用大模型；完整RAG、BGE、Chroma未实施。14条新核验官方资料保存于[资料报告](docs/research/VERIFIED_SOURCES_2026-10-01.md)及目录JSON，尚未导入问答库；当前仍只查询原有教育部2018年办法。完整答辩录屏、学校现行细则与导师确认仍待补齐。
 
 ## 继续开发
 
@@ -70,6 +70,7 @@
 
 ```powershell
 uv sync --frozen
+uv run python ..\scripts\mysql_runtime.py start
 uv run python -m app.migrate
 uv run python -m app.seed
 uv run uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
@@ -83,7 +84,7 @@ uv run ruff check app tests
 uv run python ..\scripts\verify_mysql.py --work-dir 'C:\Users\XOS\Documents\Codex\2026-09-30\c-users-xos-desktop-sol\work\mysql-verify'
 ```
 
-追加pytest选项时使用 `--` 分隔，例如 `-- tests/test_review.py`。临时实例运行后会自动停止，报告默认保存到 docs/acceptance/mysql-tests-v02.xml。
+追加pytest选项时使用 `--` 分隔，例如 `-- tests/test_review.py`。临时实例运行后会自动停止。请用`--junit-output`指定新报告文件，保留历史验证记录。
 
 前端（在 frontend 目录）：
 
@@ -96,7 +97,7 @@ npm run build
 
 体验启动使用Vite preview提供构建文件；修改代码后启动脚本检测src更新时间并重新构建。开发中使用npm run dev热更新。API文档：http://127.0.0.1:8000/docs；启动检查：http://127.0.0.1:8000/api/ping。
 
-.env由首次初始化生成并已忽略。MySQL需创建专用数据库和专用账号，将DATABASE_URL换成.env.example中的MySQL格式；空库运行迁移与种子。应用连接使用READ COMMITTED，岗位行锁保护名额，学生行锁保护跨单位工时。切换连接不会自动迁移SQLite已有数据。不要复用正在演示的库运行测试。迁移0001仅负责空库建表；未来字段变更必须新增显式迁移，不依赖create_all修改旧表。
+.env已忽略，包含本机数据库凭据及JWT密钥，不提交或分享。当前专用库qinghe_sol已经迁移，无需重新配置；项目不修改现有MySQL80服务或3306账号。应用使用READ COMMITTED及行锁；迁移0002显式升级MySQL时间列为DATETIME(6)，完整保存原记录的微秒。不要复用演示库运行测试。新机器部署、迁移前提及回退见docs/MYSQL.md。
 
 ## 常见情况
 

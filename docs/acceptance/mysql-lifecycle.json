@@ -1,0 +1,12 @@
+{
+  "database_reset": false,
+  "all_three_managed_services_stopped": true,
+  "duplicate_stop_safe": true,
+  "duplicate_start_reuses_processes": true,
+  "restarted_backend": "mysql",
+  "existing_mysql_pids": [
+    5384
+  ],
+  "checked_at": "2026-10-01T19:08:02.5359943+08:00",
+  "existing_mysql_service_pid_unchanged": true
+}

@@ -2,16 +2,18 @@ import argparse
 import json
 import os
 import secrets
+import sys
 from contextlib import closing
 from datetime import date, datetime
 from decimal import Decimal
 from pathlib import Path
 
 from sqlalchemy import func, select
+from sqlalchemy.engine import make_url
 
 from . import config
 from .database import SessionLocal, engine
-from .migrate import upgrade_schema
+from .migrate import REVISION, upgrade_schema
 from .models import Application, AuditLog, Job, JobSkill, PolicyDoc, SystemSetting, Unit, User, WorkHour
 from .security import hash_password
 from .services import freeze_salary, job_data, now, recompute_hours, sync_quota
@@ -173,7 +175,7 @@ def seed_database(db, include_bootstrap=False):
                          version=1, modified_at=BASE_TIME))
     revision = db.scalar(select(SystemSetting).where(SystemSetting.key == "schema_version"))
     if revision is None:
-        db.add(SystemSetting(key="schema_version", value={"revision": "0001", "seed": SEED_VERSION},
+        db.add(SystemSetting(key="schema_version", value={"revision": REVISION, "seed": SEED_VERSION},
                              version=1, modified_at=BASE_TIME))
     else:
         revision.value = {**revision.value, "seed": SEED_VERSION}
@@ -193,8 +195,18 @@ def seed_database(db, include_bootstrap=False):
 
 def reset_demo(confirm):
     expected = (config.ROOT / "data/campus_demo.db").resolve()
+    if config.APP_ENV == "demo" and make_url(config.DATABASE_URL).get_backend_name() == "mysql":
+        sys.path.insert(0, str(config.ROOT / "scripts"))
+        from dotenv import dotenv_values
+        from mysql_data import reset
+        configured_url = dotenv_values(config.ROOT / ".env").get("DATABASE_URL")
+        if not configured_url or make_url(configured_url) != make_url(config.DATABASE_URL):
+            raise SystemExit("Active MySQL URL differs from managed configuration; reset refused.")
+        engine.dispose()
+        print(json.dumps(reset(confirm=confirm), ensure_ascii=True))
+        return
     if config.APP_ENV != "demo" or not config.DATABASE_URL.startswith("sqlite:///"):
-        raise SystemExit("Reset is limited to the local SQLite demo; MySQL and other environments are refused.")
+        raise SystemExit("Reset is limited to the project's managed demo; other environments are refused.")
     configured = Path(config.DATABASE_URL.removeprefix("sqlite:///")).resolve()
     if configured != expected or confirm != "campus-demo":
         raise SystemExit("Demo target mismatch. Refused reset.")
@@ -228,7 +240,7 @@ def main():
     upgrade_schema()
     with SessionLocal.begin() as db:
         print(json.dumps(seed_database(db, include_bootstrap=True), ensure_ascii=True))
-        print(f"Schema 0001; jobs={db.scalar(select(func.count()).select_from(Job))}; "
+        print(f"Schema {REVISION}; jobs={db.scalar(select(func.count()).select_from(Job))}; "
               f"users={db.scalar(select(func.count()).select_from(User))}")
 
 

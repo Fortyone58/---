@@ -4,7 +4,7 @@
 flowchart LR
   B[Vue3 + Element Plus\n5173 本地浏览器] -->|JWT / HTTP API| F[FastAPI 8000\n角色与资源归属校验]
   F --> T[SQLAlchemy事务\n状态 / 名额 / 快照 / 审计]
-  T --> D[(SQLite演示库\n可配置MySQL 未实机验收)]
+  T --> D[(MySQL8专用演示库\n13308 数据已迁移及验收)]
   F --> M[四维规则匹配\n无模型调用]
   F --> P[已核验政策原文查询\n本地33条 + 官方出处]
   R[独立pytest临时库] -.-> F

@@ -2,9 +2,12 @@ from datetime import date, datetime
 from decimal import Decimal
 
 from sqlalchemy import JSON, Boolean, Date, DateTime, ForeignKey, Integer, Numeric, String, Text, UniqueConstraint
+from sqlalchemy.dialects.mysql import DATETIME
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .database import Base
+
+PRECISE_DATETIME = DateTime().with_variant(DATETIME(fsp=6), "mysql")
 
 
 class Unit(Base):
@@ -30,7 +33,7 @@ class User(Base):
     slots: Mapped[list | None] = mapped_column(JSON, nullable=True)
     area: Mapped[str | None] = mapped_column(String(1))
     major: Mapped[str] = mapped_column(String(100), default="")
-    created_at: Mapped[datetime] = mapped_column(DateTime)
+    created_at: Mapped[datetime] = mapped_column(PRECISE_DATETIME)
 
 
 class Job(Base):
@@ -47,8 +50,8 @@ class Job(Base):
     slots: Mapped[list] = mapped_column(JSON, default=list)
     status: Mapped[str] = mapped_column(String(16), default="draft", index=True)
     close_reason: Mapped[str | None] = mapped_column(String(16))
-    created_at: Mapped[datetime] = mapped_column(DateTime)
-    published_at: Mapped[datetime | None] = mapped_column(DateTime)
+    created_at: Mapped[datetime] = mapped_column(PRECISE_DATETIME)
+    published_at: Mapped[datetime | None] = mapped_column(PRECISE_DATETIME)
 
 
 class JobSkill(Base):
@@ -71,11 +74,11 @@ class Application(Base):
     review_note: Mapped[str] = mapped_column(Text, default="")
     job_snapshot: Mapped[dict] = mapped_column(JSON)
     salary_snapshot: Mapped[dict | None] = mapped_column(JSON, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime)
-    approved_at: Mapped[datetime | None] = mapped_column(DateTime)
-    onboard_at: Mapped[datetime | None] = mapped_column(DateTime)
-    finished_at: Mapped[datetime | None] = mapped_column(DateTime)
-    withdrawn_at: Mapped[datetime | None] = mapped_column(DateTime)
+    created_at: Mapped[datetime] = mapped_column(PRECISE_DATETIME)
+    approved_at: Mapped[datetime | None] = mapped_column(PRECISE_DATETIME)
+    onboard_at: Mapped[datetime | None] = mapped_column(PRECISE_DATETIME)
+    finished_at: Mapped[datetime | None] = mapped_column(PRECISE_DATETIME)
+    withdrawn_at: Mapped[datetime | None] = mapped_column(PRECISE_DATETIME)
 
 
 class WorkHour(Base):
@@ -87,13 +90,13 @@ class WorkHour(Base):
     hours: Mapped[Decimal] = mapped_column(Numeric(8, 2))
     previous_id: Mapped[int | None] = mapped_column(ForeignKey("work_hour.id"), unique=True)
     root_id: Mapped[int | None] = mapped_column(ForeignKey("work_hour.id"))
-    root_created_at: Mapped[datetime] = mapped_column(DateTime)
+    root_created_at: Mapped[datetime] = mapped_column(PRECISE_DATETIME)
     reason: Mapped[str] = mapped_column(Text, default="")
     operator_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    created_at: Mapped[datetime] = mapped_column(DateTime)
+    created_at: Mapped[datetime] = mapped_column(PRECISE_DATETIME)
     is_abnormal: Mapped[bool] = mapped_column(Boolean, default=False)
     verified_by: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
-    verified_at: Mapped[datetime | None] = mapped_column(DateTime)
+    verified_at: Mapped[datetime | None] = mapped_column(PRECISE_DATETIME)
     verification_note: Mapped[str | None] = mapped_column(Text)
 
 
@@ -104,7 +107,7 @@ class SystemSetting(Base):
     value: Mapped[dict] = mapped_column(JSON)
     version: Mapped[int] = mapped_column(Integer, default=1)
     modified_by: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
-    modified_at: Mapped[datetime] = mapped_column(DateTime)
+    modified_at: Mapped[datetime] = mapped_column(PRECISE_DATETIME)
 
 
 class AuditLog(Base):
@@ -116,7 +119,7 @@ class AuditLog(Base):
     resource_id: Mapped[int | None] = mapped_column(Integer)
     before: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     after: Mapped[dict | None] = mapped_column(JSON, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, index=True)
+    created_at: Mapped[datetime] = mapped_column(PRECISE_DATETIME, index=True)
 
 
 class PolicyDoc(Base):
@@ -127,9 +130,9 @@ class PolicyDoc(Base):
     source_url: Mapped[str] = mapped_column(String(500))
     version: Mapped[str] = mapped_column(String(100))
     verified: Mapped[bool] = mapped_column(Boolean, default=False)
-    verified_at: Mapped[datetime | None] = mapped_column(DateTime)
+    verified_at: Mapped[datetime | None] = mapped_column(PRECISE_DATETIME)
     verification_note: Mapped[str] = mapped_column(Text)
-    imported_at: Mapped[datetime] = mapped_column(DateTime)
+    imported_at: Mapped[datetime] = mapped_column(PRECISE_DATETIME)
     sections: Mapped[list] = mapped_column(JSON)
     is_school_policy: Mapped[bool] = mapped_column(Boolean, default=False)
 
@@ -141,4 +144,4 @@ class ChatLog(Base):
     conversation_id: Mapped[str] = mapped_column(String(64))
     question: Mapped[str] = mapped_column(Text)
     response: Mapped[dict] = mapped_column(JSON)
-    created_at: Mapped[datetime] = mapped_column(DateTime)
+    created_at: Mapped[datetime] = mapped_column(PRECISE_DATETIME)

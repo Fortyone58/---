@@ -1,0 +1,89 @@
+{
+  "checked_at": "2026-10-01T19:09:55.005745",
+  "label": "after-restart",
+  "ping": {
+    "status": "ok",
+    "project": "qinghe-sol",
+    "version": "0.2.0",
+    "database": "mysql"
+  },
+  "roles": [
+    {
+      "username": "student",
+      "routes_compared": 8,
+      "all_identical": true
+    },
+    {
+      "username": "student2",
+      "routes_compared": 8,
+      "all_identical": true
+    },
+    {
+      "username": "library",
+      "routes_compared": 6,
+      "all_identical": true
+    },
+    {
+      "username": "lab",
+      "routes_compared": 6,
+      "all_identical": true
+    },
+    {
+      "username": "aid",
+      "routes_compared": 6,
+      "all_identical": true
+    },
+    {
+      "username": "admin_demo",
+      "routes_compared": 6,
+      "all_identical": true
+    }
+  ],
+  "total_api_comparisons": 40,
+  "table_hashes_identical": true,
+  "tables": {
+    "policy_doc": {
+      "rows": 1,
+      "sha256": "e9ead9113322d527f10d126f4302c83b0834dd12cde76dc32c16fa3afac6d807"
+    },
+    "unit": {
+      "rows": 4,
+      "sha256": "e9c131233420886be1030a5f73bc3b1840633d573b58e0333dfe996f383a0201"
+    },
+    "job": {
+      "rows": 24,
+      "sha256": "13222d524f2d73543480bb9982b57ee1f7966f62b815f12fe2c9ff8b3cc4c9ff"
+    },
+    "users": {
+      "rows": 14,
+      "sha256": "4623cc557c0691992604e04f2004a08ea9fa3be44cb1aeee71a90c567f79340d"
+    },
+    "application": {
+      "rows": 11,
+      "sha256": "d0f832d93e2b8de591706d3583019791dd373a7001aa89b186aa353227a10baa"
+    },
+    "audit_log": {
+      "rows": 2,
+      "sha256": "cd0ee94985ef842a35db8a558db969689f67c41c66528a1ec34a2db7a179d79d"
+    },
+    "chat_log": {
+      "rows": 13,
+      "sha256": "3443dcd219a8f1aa1ae1b48c4e046849fb25529b0c04982e8c9d9dc6cd35968c"
+    },
+    "job_skill": {
+      "rows": 33,
+      "sha256": "5189312ea75c2ccdcb19904a407f36a9853f8a2f7b50b232bdd967ab2dd21898"
+    },
+    "system_setting": {
+      "rows": 2,
+      "sha256": "31a0cde931baa885fbfae13d7d28fd84a0e2a600b5a9bfed2896aae1369baa21"
+    },
+    "work_hour": {
+      "rows": 8,
+      "sha256": "4bb9c6c01438b76622a878529aefa16f37c18eb9cdb56249c76ae66e26029f36"
+    }
+  },
+  "mysql_port": 13308,
+  "business_or_chat_writes": false,
+  "demo_database_reset": false
+}

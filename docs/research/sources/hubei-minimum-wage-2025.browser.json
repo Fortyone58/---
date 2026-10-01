@@ -1,0 +1,11 @@
+{
+  "requested_url": "https://www.hubei.gov.cn/zfwj/ezbf/202512/t20251226_5842830.shtml",
+  "final_url": "https://www.hubei.gov.cn/zfwj/ezbf/202512/t20251226_5842830.shtml",
+  "id": "hubei-minimum-wage-2025.browser",
+  "raw_path": "C:\\Users\\XOS\\Desktop\\毕设\\sol\\docs\\research\\sources\\hubei-minimum-wage-2025.browser.txt",
+  "sha256": "02c41657963d376dc5dd7ff446582b120644259af6352c3b3e0ad1aa238794c7",
+  "content_type": "text/plain; charset=utf-8",
+  "capture_method": "CUA in-app browser visible body text; direct public HTTP request returned 412",
+  "fetched_at_utc": "2026-10-01T10:44:08.970574+00:00",
+  "timestamp_basis": "local archive modification timestamp"
+}
