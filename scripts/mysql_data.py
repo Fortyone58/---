@@ -98,7 +98,7 @@ def _reset_tables_and_seed(engine, include_bootstrap=True):
     upgrade_schema(engine)
     factory = sessionmaker(bind=engine)
     with factory.begin() as db:
-        return seed_database(db, include_bootstrap=include_bootstrap)
+        return seed_database(db, include_bootstrap=include_bootstrap, include_knowledge=True)
 
 
 def main():

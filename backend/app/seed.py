@@ -35,7 +35,7 @@ def ensure_env():
         print("Local configuration created. Bootstrap credentials are in .env; keep this file private.")
 
 
-def seed_database(db, include_bootstrap=False):
+def seed_database(db, include_bootstrap=False, include_knowledge=False):
     if db.scalar(select(User.id).where(User.username == "student")):
         return {"status": "unchanged", "version": SEED_VERSION}
     if include_bootstrap:
@@ -186,6 +186,10 @@ def seed_database(db, include_bootstrap=False):
             policy["verified_at"] = datetime.fromisoformat(policy["verified_at"])
             policy["imported_at"] = now()
             db.add(PolicyDoc(**policy))
+    if include_knowledge:
+        from .policy_import import build_verified_documents, import_verified_documents
+        db.flush()
+        import_verified_documents(db, build_verified_documents())
     result = {"status": "created", "version": SEED_VERSION, "jobs": len(jobs),
               "accounts": len(people) + int(include_bootstrap), "applications": len(apps)}
     db.add(AuditLog(actor_id=None, action="demo.seed", resource_type="system", resource_id=None,
@@ -239,7 +243,7 @@ def main():
     (config.ROOT / "data").mkdir(exist_ok=True)
     upgrade_schema()
     with SessionLocal.begin() as db:
-        print(json.dumps(seed_database(db, include_bootstrap=True), ensure_ascii=True))
+        print(json.dumps(seed_database(db, include_bootstrap=True, include_knowledge=True), ensure_ascii=True))
         print(f"Schema {REVISION}; jobs={db.scalar(select(func.count()).select_from(Job))}; "
               f"users={db.scalar(select(func.count()).select_from(User))}")
 

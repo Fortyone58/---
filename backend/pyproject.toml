@@ -1,6 +1,6 @@
 [project]
 name = "qinghe-workstudy"
-version = "0.2.0"
+version = "0.3.0"
 description = "Local campus work-study prototype"
 requires-python = ">=3.12,<3.14"
 dependencies = [
@@ -12,10 +12,11 @@ dependencies = [
   "PyJWT==2.10.1",
   "pymysql[rsa]==1.1.1",
   "tzdata==2025.2",
+  "httpx==0.28.1",
 ]
 
 [dependency-groups]
-dev = ["pytest==8.3.5", "httpx==0.28.1", "ruff==0.11.12"]
+dev = ["pytest==8.3.5", "ruff==0.11.12"]
 
 [tool.ruff]
 line-length = 110

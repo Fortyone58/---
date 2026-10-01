@@ -1,0 +1,224 @@
+{
+  "mode": "applied",
+  "schema_revision": "0003",
+  "backup": {
+    "path": "C:\\Users\\XOS\\Desktop\\毕设\\sol\\work\\backups\\mysql-demo-20261001-203717-154129.sql",
+    "sha256": "0e5c74fc878d0219fd88d4e928ec4cf106ab91cc8da2fd96e4335319f361d9f4",
+    "bytes": 217657
+  },
+  "protected_tables_unchanged": true,
+  "protected_tables": {
+    "unit": {
+      "before": {
+        "rows": 4,
+        "sha256": "e9c131233420886be1030a5f73bc3b1840633d573b58e0333dfe996f383a0201"
+      },
+      "after": {
+        "rows": 4,
+        "sha256": "e9c131233420886be1030a5f73bc3b1840633d573b58e0333dfe996f383a0201"
+      }
+    },
+    "job": {
+      "before": {
+        "rows": 24,
+        "sha256": "13222d524f2d73543480bb9982b57ee1f7966f62b815f12fe2c9ff8b3cc4c9ff"
+      },
+      "after": {
+        "rows": 24,
+        "sha256": "13222d524f2d73543480bb9982b57ee1f7966f62b815f12fe2c9ff8b3cc4c9ff"
+      }
+    },
+    "users": {
+      "before": {
+        "rows": 14,
+        "sha256": "4623cc557c0691992604e04f2004a08ea9fa3be44cb1aeee71a90c567f79340d"
+      },
+      "after": {
+        "rows": 14,
+        "sha256": "4623cc557c0691992604e04f2004a08ea9fa3be44cb1aeee71a90c567f79340d"
+      }
+    },
+    "application": {
+      "before": {
+        "rows": 11,
+        "sha256": "d0f832d93e2b8de591706d3583019791dd373a7001aa89b186aa353227a10baa"
+      },
+      "after": {
+        "rows": 11,
+        "sha256": "d0f832d93e2b8de591706d3583019791dd373a7001aa89b186aa353227a10baa"
+      }
+    },
+    "chat_log": {
+      "before": {
+        "rows": 14,
+        "sha256": "d34cd246d5b8574d386b409d119a66a242f1462a43f05087e82c6218598bf47b"
+      },
+      "after": {
+        "rows": 14,
+        "sha256": "d34cd246d5b8574d386b409d119a66a242f1462a43f05087e82c6218598bf47b"
+      }
+    },
+    "job_skill": {
+      "before": {
+        "rows": 33,
+        "sha256": "5189312ea75c2ccdcb19904a407f36a9853f8a2f7b50b232bdd967ab2dd21898"
+      },
+      "after": {
+        "rows": 33,
+        "sha256": "5189312ea75c2ccdcb19904a407f36a9853f8a2f7b50b232bdd967ab2dd21898"
+      }
+    },
+    "system_setting": {
+      "before": {
+        "rows": 1,
+        "sha256": "e12a69151599acb4672a2851019ea1c7aa9caf18b4dd0e5fd4216c96004af232"
+      },
+      "after": {
+        "rows": 1,
+        "sha256": "e12a69151599acb4672a2851019ea1c7aa9caf18b4dd0e5fd4216c96004af232"
+      }
+    },
+    "work_hour": {
+      "before": {
+        "rows": 8,
+        "sha256": "4bb9c6c01438b76622a878529aefa16f37c18eb9cdb56249c76ae66e26029f36"
+      },
+      "after": {
+        "rows": 8,
+        "sha256": "4bb9c6c01438b76622a878529aefa16f37c18eb9cdb56249c76ae66e26029f36"
+      }
+    }
+  },
+  "documents": 14,
+  "created": 0,
+  "updated": 1,
+  "unchanged": 13,
+  "items": [
+    {
+      "source_key": "S01",
+      "id": 2,
+      "title": "武汉设计工程学院2026年全日制普通本、专科招生章程",
+      "status": "unchanged",
+      "usage_scope": "school_fact",
+      "current_answer_allowed": true,
+      "section_count": 21
+    },
+    {
+      "source_key": "S02",
+      "id": 3,
+      "title": "党委学生工作部部门概况",
+      "status": "unchanged",
+      "usage_scope": "school_fact",
+      "current_answer_allowed": true,
+      "section_count": 1
+    },
+    {
+      "source_key": "S03",
+      "id": 4,
+      "title": "关于学生工作部（处）招聘学生助理的通知",
+      "status": "unchanged",
+      "usage_scope": "archive_only",
+      "current_answer_allowed": false,
+      "section_count": 1
+    },
+    {
+      "source_key": "S04",
+      "id": 5,
+      "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+      "status": "unchanged",
+      "usage_scope": "archive_only",
+      "current_answer_allowed": false,
+      "section_count": 7
+    },
+    {
+      "source_key": "S05",
+      "id": 6,
+      "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+      "status": "unchanged",
+      "usage_scope": "archive_only",
+      "current_answer_allowed": false,
+      "section_count": 1
+    },
+    {
+      "source_key": "S06",
+      "id": 7,
+      "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+      "status": "unchanged",
+      "usage_scope": "archive_only",
+      "current_answer_allowed": false,
+      "section_count": 1
+    },
+    {
+      "source_key": "S07",
+      "id": 8,
+      "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+      "status": "unchanged",
+      "usage_scope": "archive_only",
+      "current_answer_allowed": false,
+      "section_count": 16
+    },
+    {
+      "source_key": "S08",
+      "id": 1,
+      "title": "教育部 财政部关于印发《高等学校勤工助学管理办法（2018年修订）》的通知及附件",
+      "status": "unchanged",
+      "usage_scope": "general_policy",
+      "current_answer_allowed": true,
+      "section_count": 33
+    },
+    {
+      "source_key": "S09",
+      "id": 9,
+      "title": "教育部财务司、全国学生资助管理中心负责人就勤工助学管理办法答记者问",
+      "status": "updated",
+      "usage_scope": "official_explanation",
+      "current_answer_allowed": true,
+      "section_count": 7
+    },
+    {
+      "source_key": "S10",
+      "id": 10,
+      "title": "教育部等六部门关于做好家庭经济困难学生认定工作的指导意见",
+      "status": "unchanged",
+      "usage_scope": "general_policy",
+      "current_answer_allowed": true,
+      "section_count": 1
+    },
+    {
+      "source_key": "S11",
+      "id": 11,
+      "title": "教育部关于取消一批证明事项的通知",
+      "status": "unchanged",
+      "usage_scope": "general_policy",
+      "current_answer_allowed": true,
+      "section_count": 1
+    },
+    {
+      "source_key": "S12",
+      "id": 12,
+      "title": "最低工资规定（湖北省人社厅公开转载）",
+      "status": "unchanged",
+      "usage_scope": "labor_reference",
+      "current_answer_allowed": true,
+      "section_count": 1
+    },
+    {
+      "source_key": "S13",
+      "id": 13,
+      "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+      "status": "unchanged",
+      "usage_scope": "labor_reference",
+      "current_answer_allowed": true,
+      "section_count": 17
+    },
+    {
+      "source_key": "S14",
+      "id": 14,
+      "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+      "status": "unchanged",
+      "usage_scope": "archive_only",
+      "current_answer_allowed": false,
+      "section_count": 1
+    }
+  ]
+}

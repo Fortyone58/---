@@ -13,9 +13,12 @@ from sqlalchemy.orm import Session
 
 from . import config, schemas as s
 from .assistant import assistant_history, assistant_reply
+from .agent import agent_conversations, agent_history, agent_reply
+from .agent_schemas import AISettingsInput, AgentQuestion
+from .llm import agent_status, public_settings, save_settings, test_connection
 from .database import Base, engine, get_db
 from .models import Application, AuditLog, Job, JobSkill, PolicyDoc, SystemSetting, Unit, User, WorkHour
-from .policy import policy_conversations, policy_history, query_policy as answer_policy_query
+from .policy import policy_conversations, policy_document_data, policy_history, query_policy as answer_policy_query
 from .security import current_user, hash_password, make_token, require, verify_password
 from .services import (
     application_data, audit, check_work_date, freeze_salary, get_or_404, hours_data, job_data,
@@ -102,11 +105,13 @@ def me(user: User = Depends(current_user), db: Session = Depends(get_db)):
 
 @app.get("/api/meta")
 def meta(_user: User = Depends(current_user)):
+    ai = agent_status()
     return {"skills": config.SKILLS, "roles": config.ROLE_NAMES, "rule_version": config.RULE_VERSION,
             "areas": {"A": "A 区 · 教学与图书馆", "B": "B 区 · 行政与生活", "C": "C 区 · 实验与活动"},
             "demo_month": "2026-09", "weekly_limit": 8, "monthly_limit": 40,
             "version": config.VERSION, "capabilities": {"policy": "original_query",
-            "job_assistant": "rule_assistant", "external_model_connected": False}}
+            "job_assistant": "rule_assistant", "ai_agent": ai["mode"],
+            "external_model_connected": ai["enabled"] and ai["connection_verified"]}}
 
 
 @app.get("/api/profiles/me")
@@ -522,13 +527,7 @@ def audit_logs(limit: int = Query(default=100, ge=1, le=500), user: User = Depen
 
 
 def policy_data(doc, include_sections=False):
-    result = {"id": doc.id, "title": doc.title, "publisher": doc.publisher, "source_url": doc.source_url,
-              "version": doc.version, "verified": doc.verified, "verified_at": stamp(doc.verified_at),
-              "imported_at": stamp(doc.imported_at), "verification_note": doc.verification_note,
-              "is_school_policy": doc.is_school_policy, "section_count": len(doc.sections)}
-    if include_sections:
-        result["sections"] = doc.sections
-    return result
+    return policy_document_data(doc, include_sections)
 
 
 @app.get("/api/policies")
@@ -555,8 +554,11 @@ def import_policy(data: s.PolicyInput, user: User = Depends(current_user), db: S
         verified_at = verified_at.astimezone(ZoneInfo("Asia/Shanghai")).replace(tzinfo=None)
     if verified_at > now():
         raise HTTPException(400, "核验时间不能在未来")
-    values = data.model_dump(mode="json")
+    values = data.model_dump(mode="python")
+    values["source_url"] = str(values["source_url"])
     values["verified_at"] = verified_at
+    if values.get("expires_at") and values["expires_at"].tzinfo is not None:
+        values["expires_at"] = values["expires_at"].astimezone(ZoneInfo("Asia/Shanghai")).replace(tzinfo=None)
     doc = PolicyDoc(**values, verified=True, imported_at=now())
     db.add(doc)
     db.flush()
@@ -592,3 +594,48 @@ def query_history(conversation_id: str | None = Query(default=None, min_length=1
 @app.get("/api/qa/conversations")
 def query_conversations(user: User = Depends(current_user), db: Session = Depends(get_db)):
     return policy_conversations(db, user)
+
+
+@app.get("/api/agent/status")
+def ai_status(_user: User = Depends(current_user)):
+    return agent_status()
+
+
+@app.post("/api/agent/messages")
+def ai_message(data: AgentQuestion, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    return agent_reply(db, user, data)
+
+
+@app.get("/api/agent/history")
+def ai_history(conversation_id: str | None = Query(default=None, min_length=1, max_length=64),
+               user: User = Depends(current_user), db: Session = Depends(get_db)):
+    return agent_history(db, user, conversation_id)
+
+
+@app.get("/api/agent/conversations")
+def ai_conversations(user: User = Depends(current_user), db: Session = Depends(get_db)):
+    return agent_conversations(db, user)
+
+
+@app.get("/api/admin/ai/settings")
+def ai_settings(user: User = Depends(current_user)):
+    require(user, "admin")
+    return public_settings()
+
+
+@app.put("/api/admin/ai/settings")
+def ai_settings_save(data: AISettingsInput, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    require(user, "admin")
+    result = save_settings(data)
+    audit(db, user, "ai.settings_update", "ai_settings", None,
+          after={key: result[key] for key in ("enabled", "provider", "base_url", "model", "has_api_key")})
+    return result
+
+
+@app.post("/api/admin/ai/test")
+def ai_connection_test(user: User = Depends(current_user), db: Session = Depends(get_db)):
+    require(user, "admin")
+    db.commit()  # Never hold the auth/SQLite write transaction across a network request.
+    result = test_connection()
+    audit(db, user, "ai.connection_test", "ai_settings", None, after=result)
+    return result

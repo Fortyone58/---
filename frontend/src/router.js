@@ -10,6 +10,8 @@ const router = createRouter({
     { path: '/', component: Shell, children: [
       { path: '', redirect: '/overview' },
       { path: 'overview', component: () => import('./pages/Overview.vue'), meta: { title: '工作台', roles: all } },
+      { path: 'chat', component: () => import('./pages/Chat.vue'), meta: { title: 'AI 服务助手', roles: all } },
+      { path: 'ai-settings', component: () => import('./pages/AiSettings.vue'), meta: { title: 'AI 模型配置', roles: ['admin'] } },
       { path: 'jobs', component: () => import('./pages/Jobs.vue'), meta: { title: '岗位中心', roles: ['student', 'unit', 'admin', 'aid'] } },
       { path: 'matching', component: () => import('./pages/Matching.vue'), meta: { title: '为我匹配', roles: ['student'] } },
       { path: 'assistant', component: () => import('./pages/Assistant.vue'), meta: { title: '岗位助手', roles: ['student'] } },

@@ -4,7 +4,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 ROOT = Path(__file__).resolve().parents[2]
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 load_dotenv(ROOT / ".env")
 DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{(ROOT / 'data/campus_demo.db').as_posix()}")
 APP_ENV = os.getenv("APP_ENV", "demo")

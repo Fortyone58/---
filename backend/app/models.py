@@ -135,6 +135,17 @@ class PolicyDoc(Base):
     imported_at: Mapped[datetime] = mapped_column(PRECISE_DATETIME)
     sections: Mapped[list] = mapped_column(JSON)
     is_school_policy: Mapped[bool] = mapped_column(Boolean, default=False)
+    # Authenticity and current applicability are separate facts. Old verified
+    # originals remain queryable, while archived school notices are opt-in.
+    source_key: Mapped[str | None] = mapped_column(String(32), unique=True, index=True)
+    usage_scope: Mapped[str] = mapped_column(String(32), default="general_policy",
+                                            server_default="general_policy")
+    current_answer_allowed: Mapped[bool] = mapped_column(Boolean, default=True, server_default="1")
+    publication_date: Mapped[date | None] = mapped_column(Date)
+    effective_from: Mapped[date | None] = mapped_column(Date)
+    expires_at: Mapped[datetime | None] = mapped_column(PRECISE_DATETIME)
+    applicability: Mapped[str | None] = mapped_column(Text, default="", nullable=True)
+    source_metadata: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
 
 class ChatLog(Base):

@@ -5,6 +5,7 @@ import { api, perform, state, money, formatDate } from '../api'
 import Icon from '../components/Icon.vue'
 import CampusScene from '../components/CampusScene.vue'
 import Status from '../components/Status.vue'
+import '../agent.css'
 const router = useRouter(), stats = ref(null), applications = ref([]), recommendations = ref([]), loading = ref(true)
 const role = computed(() => state.user.role)
 const hello = computed(() => role.value === 'student' ? `${state.user.display_name}，欢迎回来` : `${state.user.unit_name || state.user.display_name}，欢迎回来`)
@@ -36,6 +37,7 @@ onMounted(async () => {
 <template>
   <div class="overview-page"><div class="page-heading"><div><p class="section-kicker">YOUR CAMPUS, YOUR POSSIBILITIES</p><h1>{{ hello }}<span class="heading-dot">.</span></h1><p>从这里，开始今天的校园服务。</p></div><span class="outline-pill"><span class="live-dot"></span>{{ role === 'student' ? '学生服务空间' : stats?.scope === '本单位' ? '本单位工作空间' : '全校服务工作空间' }}</span></div>
     <section class="welcome-banner"><div><span class="eyebrow">青禾 · 校园勤工助学</span><h2>{{ heroes[role][0] }}<br><em>{{ heroes[role][1] }}</em></h2><p>{{ heroes[role][2] }}</p><button class="btn btn-primary" @click="router.push(heroes[role][4])">{{ heroes[role][3] }}<Icon name="right" :size="18" /></button></div><CampusScene /><span class="banner-decoration">GROW TOGETHER</span></section>
+    <section class="overview-ai-entry"><span class="agent-bot-mark"><Icon name="sparkles" :size="23" /></span><div><b>把问题交给青禾 AI 服务助手</b><p>{{ role === 'student' ? '问政策、找岗位、查申请；接入模型后，可协助整理申请理由。' : role === 'unit' ? '查本单位业务、解读工时；接入模型后，可协助起草岗位文案。' : '核对官方资料、查询业务汇总，查看每次回答的原文与工具依据。' }}</p></div><router-link to="/chat" class="text-button">开始对话<Icon name="right" :size="17" /></router-link></section>
     <el-skeleton v-if="loading" :rows="5" animated />
     <template v-else-if="stats"><div class="metrics-grid"><article v-for="(metric, i) in metrics" :key="metric.title" class="metric-card"><div class="metric-top"><span>{{ metric.title }}</span><span class="metric-icon" :class="`metric-color-${i}`"><Icon :name="metric.icon" :size="20" /></span></div><p class="metric-value">{{ metric.value }}<small>{{ metric.unit }}</small></p><span class="metric-note">{{ metric.note }}</span></article></div>
       <div class="dashboard-grid"><section class="panel"><div class="panel-heading"><h3>{{ role === 'student' ? '值得看看，为你匹配' : '最近申请' }}</h3><router-link class="text-button" :to="role === 'student' ? '/matching' : '/applications'">查看全部<Icon name="right" :size="16" /></router-link></div>

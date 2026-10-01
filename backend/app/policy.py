@@ -6,6 +6,7 @@ past messages are data; they cannot supply instructions or authorize operations.
 
 import re
 import unicodedata
+from types import SimpleNamespace
 
 from sqlalchemy import and_, func, or_, select
 
@@ -23,7 +24,7 @@ TOPICS = {
                  ("时间原则上", "每周")),
     "fixed": (("固定岗位", "固定岗", "长期岗位", "长期岗"), ("固定岗位",)),
     "temporary": (("临时岗位", "临时岗", "短期岗位", "短期岗"), ("临时岗位",)),
-    "pay": (("报酬", "酬金", "工资", "薪酬", "薪资", "收入", "计酬", "多少钱", "多少元", "按小时"),
+    "pay": (("报酬", "酬金", "工资", "薪酬", "薪资", "时薪", "收入", "计酬", "多少钱", "多少元", "按小时"),
             ("报酬", "酬金", "工资", "计酬")),
     "payment": (("谁发", "谁付", "发放", "支付", "发钱"), ("发放", "支付")),
     "hardship": (("家庭经济困难", "困难学生", "贫困", "困难优先", "扶困", "优先考虑"),
@@ -39,12 +40,29 @@ TOPICS = {
                      ("资助管理机构", "管理服务组织", "统一组织和管理")),
     "definition": (("什么是勤工助学", "勤工助学是什么", "勤工助学的定义"), ("所称勤工助学活动",)),
     "principle": (("原则", "宗旨"), ("原则", "宗旨")),
+    "school_system": (("有没有勤工助学", "有勤工助学", "勤工助学制度", "是否有勤工助学"),
+                      ("学校建立勤工助学制度",)),
+    "address": (("学校地址", "校区地址", "校区在哪", "学校在哪", "学校位于", "江夏", "哪个区",
+                 "武汉设计工程学院在哪"),
+                ("武汉校区", "江夏区", "学校地址")),
+    "consultation": (("咨询", "联系电话", "电话", "找哪个部门", "找谁", "联系谁", "资助中心"),
+                     ("经济资助中心", "联系方式", "027-81733022")),
+    "recognition": (("困难认定", "经济困难学生认定", "经济困难认定", "认定档", "困难等级", "困难档", "几档"),
+                    ("认定", "资助档次")),
+    "hardship_levels": (("困难等级", "困难档", "认定档", "几档", "认定等级"),
+                        ("认定等级", "资助档次", "困难等级", "两个等级")),
+    "proof": (("民政盖章", "民政证明", "困难证明", "经济情况证明", "书面承诺", "证明材料"),
+              ("民政部门", "书面承诺", "证明", "支撑材料")),
+    "minimum_wage": (("最低工资", "最低小时工资", "非全日制", "劳动关系", "劳动标准"),
+                     ("最低工资", "最低小时工资", "劳动关系", "非全日制")),
 }
 
-SCHOOL_MARKERS = ("我校", "本校", "我们学校", "我们大学", "咱们学校", "我所在的学校", "学校细则", "本学院")
+SCHOOL_MARKERS = ("我校", "本校", "我们学校", "我们大学", "咱们学校", "我所在的学校", "学校细则", "本学院",
+                  "武汉设计工程学院", "武设院", "学校勤工助学")
 NATIONAL_MARKERS = ("全国", "国家规定", "教育部", "国家政策", "通用规定")
 FOLLOWUP_MARKERS = ("那", "这个", "这些", "该规定", "上述", "刚才", "继续", "详细", "依据", "具体怎么", "呢")
 NOTICE = "政策原文查询；未调用大模型，不生成政策结论。核验来源不代表已确认现行效力，请结合版本与学校正式细则阅读。"
+SOURCE_NAMES = ("藏龙美术馆", "美术馆", "学生助理", "招生章程", "取消一批证明")
 
 
 def _normalized(value):
@@ -95,7 +113,28 @@ def _policy_logs(user_id, conversation_id=None):
     return stmt
 
 
-def _doc_source(doc):
+def policy_document_data(doc, include_sections=False):
+    metadata = doc.source_metadata or {}
+    expired = bool(doc.expires_at and doc.expires_at < now())
+    result = {"source_key": doc.source_key, "usage_scope": doc.usage_scope,
+              "current_answer_allowed": doc.current_answer_allowed,
+              "publication_date": doc.publication_date.isoformat() if doc.publication_date else None,
+              "effective_from": doc.effective_from.isoformat() if doc.effective_from else None,
+              "expires_at": stamp(doc.expires_at), "past_deadline": expired,
+              "applicability": doc.applicability or "", "limitations": metadata.get("limitations", []),
+              "verification_status": metadata.get("verification_status", "verified_original"),
+              "validity_evidence": metadata.get("validity_evidence", doc.verification_note),
+              "category": metadata.get("category"), "document_number": metadata.get("document_number"),
+              "signed_date": metadata.get("signed_date"), "school": metadata.get("school"),
+              "campus": metadata.get("campus"), "raw_sha256": metadata.get("raw_sha256"),
+              "curated_text_sha256": metadata.get("curated_text_sha256")}
+    result.update(_doc_source_legacy(doc))
+    if include_sections:
+        result["sections"] = doc.sections
+    return result
+
+
+def _doc_source_legacy(doc):
     return {"id": doc.id, "title": doc.title, "publisher": doc.publisher, "source_url": doc.source_url,
             "version": doc.version, "verified": doc.verified, "verified_at": stamp(doc.verified_at),
             "imported_at": stamp(doc.imported_at), "verification_note": doc.verification_note,
@@ -103,6 +142,8 @@ def _doc_source(doc):
 
 
 def _query_plan(question, previous):
+    if isinstance(previous, str):
+        previous = SimpleNamespace(question=previous, response={"retrieval": _query_plan(previous, None)})
     normalized = _normalized(question)
     topics = {name for name, (aliases, _terms) in TOPICS.items() if any(alias in normalized for alias in aliases)}
     if re.search(r"\d+(?:\.\d+)?\s*元", normalized):
@@ -133,10 +174,33 @@ def _query_plan(question, previous):
             context_topics = old_topics & {"off_campus"}
     topics |= context_topics
     used_context = bool(context_topics or context_articles or (school and not explicit_school))
+    years = sorted(set(re.findall(r"(?<!\d)(?:19|20)\d{2}(?!\d)", normalized)))
+    source_ids = sorted({f"S{identity}" for identity in re.findall(r"(?<![a-z0-9])s(\d{2,3})(?!\d)", normalized)})
+    archive_requested = bool(years or source_ids or any(word in normalized for word in
+                                                      ("历史", "以前", "当年", "旧版", "往年")))
+    # An explicitly historical question may ask whether that old batch is still
+    # open. An unqualified "现在" follow-up instead returns to current evidence.
+    current_request = any(word in normalized for word in ("现在", "当前", "今年", "最新"))
+    inherited_source = (followup and not current_request and not archive_requested and
+                        (_generic_followup(normalized) or
+                         (bool(topics) and topics <= set(previous_plan.get("topics", [])))))
+    if inherited_source:
+        years = previous_plan.get("years", [])
+        source_ids = previous_plan.get("source_ids", [])
+        archive_requested = previous_plan.get("archive_requested", False)
+        used_context = bool(used_context or years or source_ids)
+    names = [name for name in SOURCE_NAMES if name in normalized]
+    if "藏龙美术馆" in names:
+        names.remove("美术馆")
+    if inherited_source and not names:
+        names = previous_plan.get("source_names", [])
+        used_context = bool(used_context or names)
     return {"topics": sorted(topics), "article_numbers": articles or context_articles,
             "scope": "school" if school else ("national" if explicit_national else "all"),
             "used_context": used_context,
-            "previous_question": previous.question if used_context else None}
+            "previous_question": previous.question if used_context else None,
+            "years": years, "source_ids": source_ids, "archive_requested": archive_requested,
+            "source_names": names, "labor_question": "minimum_wage" in topics}
 
 
 def _score_section(section, question, plan):
@@ -149,7 +213,8 @@ def _score_section(section, question, plan):
     found = {name for name in topics if any(term in text for term in TOPICS[name][1])}
     # A combined question must keep its specific dimension: "临时岗工资" should
     # not retrieve the fixed-pay rule, and "每周" must not retrieve monthly pay.
-    required = topics & {"weekly", "holiday", "fixed", "temporary", "off_campus"}
+    required = topics & {"weekly", "holiday", "fixed", "temporary", "off_campus", "school_system",
+                         "address", "consultation", "recognition", "hardship_levels", "proof", "minimum_wage"}
     both_categories_pay = {"fixed", "temporary", "pay"} <= topics
     if both_categories_pay:
         required -= {"fixed", "temporary"}
@@ -172,40 +237,102 @@ def _score_section(section, question, plan):
             score += 5
         if "payment" in topics and "支付" in text:
             score += 5
+        if topics & {"minimum_wage", "address"}:
+            score += sum(5 for place in ("武汉", "湖北", "江夏") if place in _normalized(question) and place in text)
         return score
     compact = re.sub(r"[\s?？。!！,，:：;；]+", "", _normalized(question))
     return 10 if compact and (compact in text or compact in location) else 0
 
 
-def query_policy(db, user, data):
-    previous = db.scalar(_policy_logs(user.id, data.conversation_id).order_by(ChatLog.id.desc()).limit(1))
-    plan = _query_plan(data.question, previous)
+def _document_allowed(doc, plan, reference_time):
+    metadata = doc.source_metadata or {}
+    years = plan["years"]
+    if plan["source_ids"] and doc.source_key not in plan["source_ids"]:
+        return False, "不属于指定资料编号"
+    if plan["source_names"] and not any(name in doc.title for name in plan["source_names"]):
+        return False, "不属于指定资料名称"
+    if years and not any(year in str(doc.publication_date or "") + doc.version +
+                         str(metadata.get("signed_date", "")) for year in years):
+        return False, "不属于明确询问的年份版本"
+    if doc.usage_scope == "labor_reference" and not plan["labor_question"] and not plan["source_ids"]:
+        return False, "劳动关系工资资料不能充当本校勤工助学报酬规定"
+    archive = doc.usage_scope == "archive_only" or not doc.current_answer_allowed
+    expired = bool(doc.expires_at and doc.expires_at < reference_time)
+    if (archive or expired) and not plan["archive_requested"]:
+        return False, "历史、截止或效力未确认资料仅供明确的历史查询"
+    if doc.effective_from and doc.effective_from > reference_time.date():
+        return False, "尚未到执行日期"
+    return True, None
+
+
+def retrieve_policy(db, question, previous=None, limit=5):
+    """Read verified evidence without logging or changing business records.
+
+    This same scope/time filter is used by original-query and AI tools. The
+    caller must scope previous to the authenticated user's conversation.
+    """
+    plan = _query_plan(question, previous)
     docs = list(db.scalars(select(PolicyDoc).where(PolicyDoc.verified.is_(True)).order_by(PolicyDoc.id)))
     if plan["scope"] == "school":
         docs = [doc for doc in docs if doc.is_school_policy]
     elif plan["scope"] == "national":
         docs = [doc for doc in docs if not doc.is_school_policy]
     hits = []
+    excluded = []
+    reference_time = now()
     for doc in docs:
+        allowed, reason = _document_allowed(doc, plan, reference_time)
+        if not allowed:
+            excluded.append({"source_key": doc.source_key, "title": doc.title, "reason": reason})
+            continue
         for index, section in enumerate(doc.sections):
-            score = _score_section(section, data.question, plan)
-            if not score and not plan["article_numbers"] and data.question in doc.title:
+            score = _score_section(section, question, plan)
+            if not score and not plan["article_numbers"] and question in doc.title:
+                score = 1
+            if not score and not plan["article_numbers"] and not plan["topics"] and (
+                    plan["source_ids"] or plan["source_names"]):
                 score = 1
             if score:
                 hits.append({"score": score, "index": index, "text": section["text"],
-                             "location": section["location"], "source": _doc_source(doc)})
+                             "location": section["location"], "source": policy_document_data(doc),
+                             "quote_source_url": section.get("source_url", doc.source_url)})
     hits.sort(key=lambda hit: (-hit["score"], hit["source"]["id"], hit["index"]))
     citations = [{key: value for key, value in hit.items() if key not in {"score", "index"}}
-                 for hit in hits[:5]]
+                 for hit in hits[:max(1, min(limit, 10))]]
+    plan["excluded_sources"] = excluded
+    boundaries = []
+    if any(hit["source"]["usage_scope"] == "archive_only" or hit["source"]["past_deadline"]
+           for hit in citations):
+        boundaries.append("以下引用包含历史存档；已截止招聘不能作为当前在招岗位，旧版资料不能直接作为现行细则。")
+    if any(hit["source"]["usage_scope"] == "labor_reference" for hit in citations):
+        boundaries.append("劳动最低工资资料适用于其规定的劳动关系；24元/小时不是已确认的本校勤工助学时薪。")
     if citations:
         answer = f"找到 {len(citations)} 段已核验原文，请结合条款上下文阅读。"
+        if boundaries:
+            answer += " " + " ".join(boundaries)
     elif plan["scope"] == "school" and not docs:
         answer = "当前知识库没有可靠依据：尚未收录已核验的本校细则。请向学校资助中心确认。"
+    elif plan["scope"] == "school" and "pay" in plan["topics"]:
+        answer = ("当前知识库没有可靠依据：已核验公开资料尚未确认本校具体岗位时薪。"
+                  "不能将国家临时岗位原则12元或劳动标准24元视为本校实际时薪，请向学校资助中心确认。")
+    elif plan["scope"] == "school" and set(plan["topics"]) & {"recognition", "hardship_levels", "proof"}:
+        answer = ("当前知识库没有可靠依据：本校完整现行困难认定细则尚未取得。"
+                  "2019年旧版不能直接作为当前等级或盖章要求，请向学校资助中心确认。")
+    elif plan["scope"] == "school" and "application" in plan["topics"] and not plan["archive_requested"]:
+        answer = ("当前知识库没有可靠依据：本校统一申请细则及当前仍可报名的招聘公告尚未确认。"
+                  "已归档的历史招聘批次已经截止，请查看学校最新公告或向学校资助中心咨询。"
+                  "系统中的演示岗位不能视为学校当前真实招聘。")
     else:
         answer = "当前知识库没有可靠依据。可换个表述或指定条款编号；学校细则尚未收录时，请向学校资助中心确认。"
+    return {"answer": answer, "citations": citations, "notice": NOTICE, "retrieval": plan,
+            "boundaries": boundaries}
+
+
+def query_policy(db, user, data):
+    previous = db.scalar(_policy_logs(user.id, data.conversation_id).order_by(ChatLog.id.desc()).limit(1))
+    evidence = retrieve_policy(db, data.question, previous)
     response = {"kind": "policy", "mode": "original_query", "question": data.question,
-                "conversation_id": data.conversation_id, "answer": answer,
-                "citations": citations, "notice": NOTICE, "retrieval": plan}
+                "conversation_id": data.conversation_id, **evidence}
     db.add(ChatLog(user_id=user.id, conversation_id=data.conversation_id, question=data.question,
                    response=response, created_at=now()))
     db.flush()

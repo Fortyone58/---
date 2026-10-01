@@ -152,3 +152,16 @@ class PolicyInput(StrictModel):
     verification_note: str = Field(min_length=5, max_length=2000)
     sections: list[Section] = Field(min_length=1, max_length=200)
     is_school_policy: bool = False
+    usage_scope: Literal["general_policy", "school_fact", "official_explanation", "labor_reference",
+                         "archive_only"] = "general_policy"
+    current_answer_allowed: bool = True
+    publication_date: date | None = None
+    effective_from: date | None = None
+    expires_at: datetime | None = None
+    applicability: str = Field(default="", max_length=3000)
+
+    @model_validator(mode="after")
+    def archive_is_not_current(self):
+        if self.usage_scope == "archive_only" and self.current_answer_allowed:
+            raise ValueError("历史存档资料不能标记为默认当前问答依据")
+        return self
