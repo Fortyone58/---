@@ -142,7 +142,19 @@ function citationLimitations(hit) {
   return Array.isArray(value) ? value.join('；') : value || ''
 }
 function jobsFor(response) { return (response.jobs || []).map(item => ({ ...item, job: item.job || item, score: item.score ?? item.matching?.total ?? null })) }
-function modeLabel(response) { return response.mode === 'model' ? 'AI 回答' : '原文与业务查询' }
+function modeLabel(response) {
+  const states = {
+    model_grounded: 'AI 回答',
+    model_fallback: '模型降级为原文/规则',
+    policy_source: '已核验政策原文',
+    policy_no_evidence: '无可靠依据',
+    policy_boundary: '资料适用边界',
+    write_refusal: '只读操作拒绝',
+    needs_input: '需要补充条件',
+  }
+  return states[response.answer_state] || (response.mode === 'model' ? 'AI 回答' : '原文与业务查询')
+}
+function retrievalLabel(response) { return ({ hybrid: '语义与关键词', keyword_fallback: '关键词 · 语义检索暂不可用', article_exact: '按条款定位', keyword: '关键词' })[response.retrieval?.mode] }
 async function copyAnswer(entry) {
   try {
     await navigator.clipboard.writeText(entry.response.answer || '')
@@ -183,7 +195,7 @@ onMounted(async () => {
               <div v-if="entry.response.tool_steps?.length" class="agent-tools"><details><summary><Icon name="check" :size="15" /><span>实际查询与执行记录 · {{ entry.response.tool_steps.length }} 项</span><Icon name="chevron" :size="14" /></summary><ol><li v-for="(step, index) in entry.response.tool_steps" :key="`${step.name}-${index}`"><Icon :name="step.status === 'rejected' ? 'shield' : 'check'" :size="15" /><div><b>{{ step.label || step.name }}<small v-if="step.duration_ms !== undefined">{{ step.duration_ms }} ms</small></b><p>{{ step.summary }}</p></div><span v-if="step.status === 'rejected'" class="agent-tool-rejected">已拒绝</span></li></ol><p class="agent-tools-note">展示实际工具调用结果，不包含模型内部思考。</p></details></div>
               <div v-if="entry.response.citations?.length" class="agent-sources"><details><summary><Icon name="book" :size="15" /><span>查看原文依据 · {{ entry.response.citations.length }} 段</span><Icon name="chevron" :size="14" /></summary><article v-for="(hit, index) in entry.response.citations" :key="`${citationData(hit).source_id || citationData(hit).id}-${index}`" class="agent-source"><div><span class="agent-source-number">{{ index + 1 }}</span><b>{{ citationData(hit).title }}</b><span v-if="citationData(hit).source_key" class="mini-label">{{ citationData(hit).source_key }}</span></div><p class="agent-source-location">{{ citationData(hit).publisher }}<template v-if="citationData(hit).version"> · {{ citationData(hit).version }}</template><template v-if="citationData(hit).section"> · {{ citationData(hit).section }}</template></p><div v-if="citationData(hit).past_deadline || citationData(hit).usage_scope === 'archive_only'" class="agent-source-archive"><Icon name="history" :size="13" />历史资料，仅作对应年度参考<template v-if="citationData(hit).expires_at"> · 截止 {{ formatDate(citationData(hit).expires_at) }}</template></div><blockquote>{{ citationData(hit).text }}</blockquote><p v-if="citationScope(hit)" class="agent-source-scope">适用范围：{{ citationScope(hit) }}</p><p v-if="citationLimitations(hit)" class="agent-source-scope">使用限制：{{ citationLimitations(hit) }}</p><a v-if="safeSourceUrl(hit)" :href="safeSourceUrl(hit)" target="_blank" rel="noopener noreferrer" class="text-button">打开引用原文<Icon name="external" :size="14" /></a></article></details></div>
               <div v-if="entry.response.jobs?.length" class="agent-job-grid"><JobCard v-for="item in jobsFor(entry.response)" :key="item.job.id" :job="item.job" :score="item.score" @view="job => router.push(`/jobs?job=${job.id}`)" /></div>
-              <p v-if="entry.response.notice" class="agent-reply-notice"><Icon name="info" :size="14" />{{ entry.response.notice }}</p><div class="agent-reply-actions"><button class="text-button" @click="copyAnswer(entry)"><Icon :name="copied === String(entry.id) ? 'check' : 'files'" :size="14" />{{ copied === String(entry.id) ? '已复制' : '复制回答' }}</button><span v-if="entry.created_at">{{ formatDate(entry.created_at) }}</span></div>
+              <p v-if="retrievalLabel(entry.response)" class="agent-reply-notice"><Icon name="search" :size="14" />原文检索：{{ retrievalLabel(entry.response) }}</p><p v-if="entry.response.notice" class="agent-reply-notice"><Icon name="info" :size="14" />{{ entry.response.notice }}</p><div class="agent-reply-actions"><button class="text-button" @click="copyAnswer(entry)"><Icon :name="copied === String(entry.id) ? 'check' : 'files'" :size="14" />{{ copied === String(entry.id) ? '已复制' : '复制回答' }}</button><span v-if="entry.created_at">{{ formatDate(entry.created_at) }}</span></div>
             </div></article>
           </div>
           <div v-if="busy" class="agent-turn"><div class="agent-user-message"><div>{{ pendingQuestion }}</div><span class="agent-user-avatar"><Icon name="user" :size="17" /></span></div><div class="agent-reply"><span class="agent-reply-avatar"><Icon name="sparkles" :size="18" /></span><div class="agent-waiting" role="status"><div><span></span><span></span><span></span></div><b>{{ isReady ? '正在处理你的问题…' : '正在查询原文与业务…' }}</b><p>{{ isReady ? '理解问题 → 按需查知识 / 读业务 → 组织回答' : '检索已核验原文，查询当前权限内的业务数据' }}</p><small>回答完成后显示实际调用的工具与依据。</small></div></div></div>

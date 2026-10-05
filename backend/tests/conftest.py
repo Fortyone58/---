@@ -7,9 +7,21 @@ from sqlalchemy import create_engine, event, text
 from sqlalchemy.engine import make_url
 from sqlalchemy.orm import sessionmaker
 
+# This fixture stack imports app.main and its normal private configuration.
+# Run test_agent_safety_isolated.py with --noconftest; it injects fake config first.
+from app import rag
 from app.database import Base, engine_options, get_db
 from app.main import app
 from app.seed import seed_database
+
+
+@pytest.fixture(autouse=True)
+def isolated_rag(tmp_path, monkeypatch):
+    monkeypatch.setenv("RAG_ENABLED", "false")
+    monkeypatch.setenv("QINGHE_RAG_DIR", str(tmp_path / "rag"))
+    monkeypatch.setenv("RAG_MODEL_CACHE", str(tmp_path / "rag/models"))
+    yield
+    rag.close_indexes()
 
 
 @pytest.fixture

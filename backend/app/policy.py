@@ -1,7 +1,7 @@
 """Grounded policy lookup and private conversation history.
 
-This is deterministic, topic-aware original-text retrieval. Source documents and
-past messages are data; they cannot supply instructions or authorize operations.
+Scope/time filtering precedes keyword and local semantic retrieval. Source
+documents and past messages are data, never instructions or authorization.
 """
 
 import re
@@ -10,6 +10,7 @@ from types import SimpleNamespace
 
 from sqlalchemy import and_, func, or_, select
 
+from . import rag
 from .models import ChatLog, PolicyDoc
 from .services import now, stamp
 
@@ -24,7 +25,8 @@ TOPICS = {
                  ("时间原则上", "每周")),
     "fixed": (("固定岗位", "固定岗", "长期岗位", "长期岗"), ("固定岗位",)),
     "temporary": (("临时岗位", "临时岗", "短期岗位", "短期岗"), ("临时岗位",)),
-    "pay": (("报酬", "酬金", "工资", "薪酬", "薪资", "时薪", "收入", "计酬", "多少钱", "多少元", "按小时"),
+    "pay": (("报酬", "酬金", "工资", "薪酬", "薪资", "时薪", "收入", "计酬", "多少钱", "多少元", "按小时",
+             "能赚", "能挣", "能拿"),
             ("报酬", "酬金", "工资", "计酬")),
     "payment": (("谁发", "谁付", "发放", "支付", "发钱"), ("发放", "支付")),
     "hardship": (("家庭经济困难", "困难学生", "贫困", "困难优先", "扶困", "优先考虑"),
@@ -272,19 +274,22 @@ def retrieve_policy(db, question, previous=None, limit=5):
     caller must scope previous to the authenticated user's conversation.
     """
     plan = _query_plan(question, previous)
-    docs = list(db.scalars(select(PolicyDoc).where(PolicyDoc.verified.is_(True)).order_by(PolicyDoc.id)))
+    verified_docs = list(db.scalars(select(PolicyDoc).where(PolicyDoc.verified.is_(True)).order_by(PolicyDoc.id)))
+    docs = verified_docs
     if plan["scope"] == "school":
         docs = [doc for doc in docs if doc.is_school_policy]
     elif plan["scope"] == "national":
         docs = [doc for doc in docs if not doc.is_school_policy]
     hits = []
     excluded = []
+    eligible_ids = set()
     reference_time = now()
     for doc in docs:
         allowed, reason = _document_allowed(doc, plan, reference_time)
         if not allowed:
             excluded.append({"source_key": doc.source_key, "title": doc.title, "reason": reason})
             continue
+        eligible_ids.add(doc.id)
         for index, section in enumerate(doc.sections):
             score = _score_section(section, question, plan)
             if not score and not plan["article_numbers"] and question in doc.title:
@@ -299,6 +304,40 @@ def retrieve_policy(db, question, previous=None, limit=5):
     hits.sort(key=lambda hit: (-hit["score"], hit["source"]["id"], hit["index"]))
     citations = [{key: value for key, value in hit.items() if key not in {"score", "index"}}
                  for hit in hits[:max(1, min(limit, 10))]]
+    plan["mode"] = "article_exact" if plan["article_numbers"] else "keyword"
+    if rag.options().enabled and not plan["article_numbers"]:
+        def score_chunk(chunk):
+            score = _score_section({"location": chunk.location, "text": chunk.text}, question, plan)
+            if plan["topics"] and not score:
+                return -1
+            if _generic_followup(question) and not plan["used_context"]:
+                return -1
+            if not score and not plan["topics"] and (plan["source_ids"] or plan["source_names"]):
+                score = 1
+            if not score and question in chunk.title:
+                score = 1
+            return score
+
+        semantic_query = (f"{plan['previous_question']}\n{question}"
+                          if plan["used_context"] and _generic_followup(question) else question)
+        semantic_query = re.sub(r"^(?:(?:根据|关于)\s*)?(?:国家政策|校园勤工助学|勤工助学)\s*[：:]\s*",
+                                "", semantic_query)
+        semantic_query = f"校园勤工助学政策：{semantic_query}"
+        ranked, retrieval = rag.hybrid_search(verified_docs, eligible_ids, semantic_query, score_chunk,
+                                              max(1, min(limit, 10)))
+        plan.update(retrieval)
+        if retrieval["mode"] != "keyword_fallback":
+            by_id = {doc.id: doc for doc in verified_docs}
+            citations = []
+            for hit in ranked:
+                chunk = hit["chunk"]
+                doc = by_id[chunk.document_id]
+                section = doc.sections[chunk.section_index]
+                citations.append({"text": chunk.text, "location": chunk.location,
+                                  "source": policy_document_data(doc),
+                                  "quote_source_url": section.get("source_url", doc.source_url),
+                                  "chunk": {"id": chunk.id, "start": chunk.start, "end": chunk.end},
+                                  "retrieval_method": hit["method"], "semantic_score": hit["semantic_score"]})
     plan["excluded_sources"] = excluded
     boundaries = []
     if any(hit["source"]["usage_scope"] == "archive_only" or hit["source"]["past_deadline"]
@@ -324,7 +363,12 @@ def retrieve_policy(db, question, previous=None, limit=5):
                   "系统中的演示岗位不能视为学校当前真实招聘。")
     else:
         answer = "当前知识库没有可靠依据。可换个表述或指定条款编号；学校细则尚未收录时，请向学校资助中心确认。"
-    return {"answer": answer, "citations": citations, "notice": NOTICE, "retrieval": plan,
+    notice = NOTICE
+    if plan["mode"] == "hybrid":
+        notice = "政策原文查询；使用语义与关键词查找依据，未调用回答模型。请核对原文版本、适用范围与学校细则。"
+    elif plan["mode"] == "keyword_fallback":
+        notice += " 本地语义检索暂不可用，本轮使用关键词检索。"
+    return {"answer": answer, "citations": citations, "notice": notice, "retrieval": plan,
             "boundaries": boundaries}
 
 

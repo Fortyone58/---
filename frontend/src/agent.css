@@ -1,4 +1,14 @@
 .sidebar nav { min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #d5decf transparent; }
+.rag-index-section { margin-top: 30px; padding: 25px 0 10px; border-top: 1px solid var(--line); }
+.rag-index-section h3 { font-size: 18px; margin: 0 0 8px; }
+.rag-index-stats { display: flex; gap: 45px; flex-wrap: wrap; margin: 25px 0; }
+.rag-index-stats > div { min-width: 120px; }
+.rag-index-stats dt { font-size: 12px; color: var(--muted); margin-bottom: 9px; }
+.rag-index-stats dd { font-size: 24px; margin: 0; }
+.rag-index-stats dd small { font-size: 12px; margin-left: 6px; }
+.rag-index-stats dd.rag-index-date { font-size: 14px; line-height: 34px; }
+.rag-index-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.rag-index-error { color: #a84545; font-size: 13px; }
 .sidebar-bottom { padding-top: 18px; flex-shrink: 0; }
 .agent-page-heading { margin-bottom: 23px; }
 .agent-layout { display: grid; grid-template-columns: 224px minmax(0, 1fr); gap: 20px; align-items: start; }

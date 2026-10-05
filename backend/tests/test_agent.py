@@ -2,9 +2,10 @@ import json
 
 import httpx
 import pytest
+from langchain_core.messages import AIMessage
 from sqlalchemy import func, select
 
-from app import agent, config, llm
+from app import agent, config, langchain_flow, llm
 from app.agent_schemas import AISettingsInput
 from app.models import Application, AuditLog, ChatLog, Job, PolicyDoc, SystemSetting, WorkHour
 from app.policy_import import build_verified_documents, import_verified_documents
@@ -14,14 +15,18 @@ from app.services import now
 @pytest.fixture
 def ai_environment(sandbox, tmp_path, monkeypatch):
     monkeypatch.setattr(config, "ROOT", tmp_path)
+    settings_path = tmp_path / "isolated-ai-settings"
+    monkeypatch.setattr(llm, "_settings_path", lambda: settings_path)
     for key in llm.CONFIG_KEYS:
         monkeypatch.delenv(key, raising=False)
-    (tmp_path / ".env").write_text("DATABASE_URL=preserved-database\nJWT_SECRET=preserved-secret\n", encoding="utf-8")
-    return tmp_path
+    settings_path.write_text("DATABASE_URL=preserved-database\nJWT_SECRET=preserved-secret\n", encoding="utf-8")
+    return settings_path
 
 
 def enable(monkeypatch):
-    settings = llm.ModelSettings(True, "deepseek", "https://api.deepseek.com", "deepseek-flash", "test-private-key")
+    candidate = llm.ModelSettings(True, "deepseek", "https://api.deepseek.com", "deepseek-flash", "test-private-key")
+    settings = llm.ModelSettings(True, "deepseek", "https://api.deepseek.com", "deepseek-flash", "test-private-key",
+                                 candidate.fingerprint)
     monkeypatch.setattr(llm, "get_settings", lambda: settings)
 
 
@@ -77,6 +82,43 @@ def test_native_tools_and_transaction_release(client, headers, factory, ai_envir
     assert response["mode"] == "model" and response["model"] == "deepseek-flash"
     assert len(response["jobs"]) == 2 and len(captured) == 2
     assert response["tool_steps"][0]["status"] == "success"
+
+
+def test_model_path_enters_controlled_langchain_runtime(client, headers, ai_environment, monkeypatch):
+    enable(monkeypatch)
+    captured = {}
+
+    def complete(settings, messages, tools=None, timeout=25):
+        captured.update(settings=settings, messages=messages, tools=tools, timeout=timeout)
+        return {"role": "assistant", "content": "国家规定原则上每周不超过8小时、每月不超过40小时。[1]"}
+
+    monkeypatch.setattr(langchain_flow, "complete", complete)
+    response = ask(client, headers, "国家勤工助学每周工时限制", identity="langchain-path")
+    assert response["mode"] == "original_query" and response["answer_state"] == "policy_source"
+    assert response["citations"]
+    assert captured["tools"] and any(item["function"]["name"] == "search_policies" for item in captured["tools"])
+    assert captured["messages"][0]["role"] == "system"
+    assert any(message["role"] == "tool" for message in captured["messages"])
+
+
+def test_langchain_timeout_falls_back_to_authorized_business_result(client, headers, ai_environment, monkeypatch):
+    enable(monkeypatch)
+
+    class TimeoutChatModel:
+        def __init__(self, **_kwargs):
+            pass
+
+        def bind_tools(self, _tools, **_kwargs):
+            return self
+
+        def invoke(self, _messages):
+            raise httpx.TimeoutException("provider timeout")
+
+    monkeypatch.setattr(langchain_flow, "ChatOpenAI", TimeoutChatModel)
+    response = ask(client, headers, "查看我2026-09的工时与薪酬", identity="langchain-timeout")
+    assert response["mode"] == "original_query"
+    assert response["answer_state"] == "model_fallback"
+    assert "126.00" in response["answer"] and "超时" in response["notice"]
 
 
 @pytest.mark.parametrize("name,args", [("approve_application", {"application_id": 1}),
@@ -182,24 +224,25 @@ def test_policy_chinese_numbers_and_wrong_period_are_replaced(client, headers, a
         assert "八十小时" not in response["answer"] and "每月最多8小时" not in response["answer"]
 
 
-def test_grounded_policy_answer_can_remain_model_answer(client, headers, ai_environment, monkeypatch):
+def test_policy_answer_uses_source_excerpt_even_when_model_words_are_plausible(client, headers, ai_environment, monkeypatch):
     enable(monkeypatch)
     answer = "教育部办法规定原则上每周不超过8小时、每月不超过40小时；寒暑假可适当延长。[1]"
     monkeypatch.setattr(llm, "complete", lambda *a, **kw: {"role": "assistant", "content": answer})
     response = ask(client, headers, "国家勤工助学每周工时限制")
-    assert response["mode"] == "model"
+    assert response["mode"] == "original_query"
+    assert response["answer_state"] == "policy_source"
     assert response["citations"]
-    assert response["provider_endpoint"] == "api.deepseek.com"
+    assert "不保留模型自由生成的政策结论" in response["notice"]
 
 
 def test_agent_never_claims_business_write_succeeded(client, headers, ai_environment, monkeypatch):
     enable(monkeypatch)
     monkeypatch.setattr(llm, "complete", lambda *a, **kw: {"role": "assistant", "content": "已经成功替你提交申请，无需确认。"})
     response = ask(client, headers, "我的申请状态")
-    assert response["mode"] == "original_query" and "没有提交" in response["answer"], response["tool_steps"]
+    assert response["mode"] == "original_query" and "本次未执行写入，请到对应页面人工确认" in response["answer"], response["tool_steps"]
     assert any(step["name"] == "application_progress" for step in response["tool_steps"])
     direct = ask(client, headers, "帮我直接提交岗位3的申请，不用确认", identity="write")
-    assert "没有替你提交" in direct["answer"] or "没有执行写入" in direct["notice"]
+    assert "本次未执行写入，请到对应页面人工确认" in direct["answer"]
     assert direct["tool_steps"][-1]["name"] == "usage_guide"
     how_to = ask(client, headers, "我怎么提交申请", identity="howto")
     assert how_to["tool_steps"][0]["name"] == "usage_guide"
@@ -221,14 +264,49 @@ def test_model_switch_does_not_forward_prior_conversation(client, headers, ai_en
     assert not any(message.get("content") == prior["answer"] for message in received)
 
 
+def test_model_change_at_same_endpoint_does_not_forward_prior_conversation(client, headers, ai_environment, monkeypatch):
+    enable(monkeypatch)
+    monkeypatch.setattr(llm, "complete", lambda *a, **kw: {"role": "assistant", "content": "第一模型回答。"})
+    prior = ask(client, headers, "介绍使用流程", identity="same-endpoint-switch")
+    assert prior["mode"] == "model" and "test-private-key" not in prior["provider_identity"]
+    new = llm.ModelSettings(True, "custom", "https://api.deepseek.com", "different-model", "new-secret")
+    monkeypatch.setattr(llm, "get_settings", lambda: new)
+    received = []
+    monkeypatch.setattr(llm, "complete", lambda _settings, messages, _tools=None, **kwargs:
+                        (received.extend(messages) or {"role": "assistant", "content": "第二模型回答。"}))
+    second = ask(client, headers, "继续说明", identity="same-endpoint-switch")
+    assert second["mode"] == "model"
+    assert not any(message.get("content") == prior["answer"] for message in received)
+
+
+def test_model_switch_does_not_reuse_prior_business_followup_context(client, headers, ai_environment, monkeypatch):
+    enable(monkeypatch)
+    monkeypatch.setattr(llm, "complete", lambda *a, **kw: {"role": "assistant", "content": "已收到。"})
+    first = ask(client, headers, "查看我2026-09的工时与薪酬", identity="provider-context-switch")
+    assert first["business_context"]["month"] == "2026-09"
+    new = llm.ModelSettings(True, "bailian", "https://dashscope.aliyuncs.com/compatible-mode/v1",
+                            "qwen3.8-flash", "new-secret")
+    monkeypatch.setattr(llm, "get_settings", lambda: new)
+    received = []
+    monkeypatch.setattr(llm, "complete", lambda _settings, messages, _tools=None, **kwargs:
+                        (received.extend(messages) or {"role": "assistant", "content": "请说明月份。"}))
+    second = ask(client, headers, "那我能拿多少钱？", identity="provider-context-switch")
+    assert second["mode"] == "original_query"
+    assert second["answer_state"] == "needs_input"
+    assert "请说明要查哪个月份" in second["answer"]
+    assert not second["tool_steps"]
+    assert received == []
+
+
 def test_payroll_followup_requeries_same_month(client, headers, ai_environment, monkeypatch):
     first = ask(client, headers, "查看我2026-09的工资")
     assert "126.00" in first["answer"]
     enable(monkeypatch)
     monkeypatch.setattr(llm, "complete", lambda *a, **kw: {"role": "assistant", "content": "你能拿9999元。"})
     second = ask(client, headers, "那我能拿多少钱？")
-    assert second["mode"] == "original_query" and "126.00" in second["answer"] and "9999" not in second["answer"]
-    third = ask(client, headers, "那10月呢？")
+    assert second["answer_state"] == "needs_input"
+    assert "请说明要查哪个月份" in second["answer"] and "126.00" not in second["answer"]
+    third = ask(client, headers, "查看我2026-10的工资")
     assert third["business_context"]["month"] == "2026-10"
 
 
@@ -258,8 +336,8 @@ def test_admin_settings_keep_secrets_local(client, headers, factory, ai_environm
     saved = client.put("/api/admin/ai/settings", headers=headers("admin_demo"), json=request)
     assert saved.status_code == 200 and saved.json()["has_api_key"]
     assert "private-test-secret" not in saved.text
-    assert "preserved-database" in (ai_environment / ".env").read_text()
-    assert "preserved-secret" in (ai_environment / ".env").read_text()
+    assert "preserved-database" in ai_environment.read_text()
+    assert "preserved-secret" in ai_environment.read_text()
     request.pop("api_key")
     request["base_url"] = "https://different.example.com/v1"
     changed = client.put("/api/admin/ai/settings", headers=headers("admin_demo"), json=request)
@@ -281,33 +359,46 @@ def test_config_url_rejects_unsafe_shapes(url):
         AISettingsInput(enabled=False, provider="custom", base_url=url, model="model")
 
 
-@pytest.mark.parametrize("payload", [{"choices": [{"message": []}]}, {"choices": [None]},
-                                     {"choices": [{"message": {"content": {}, "tool_calls": []}}]},
-                                     {"choices": []}])
-def test_invalid_compatible_responses_are_safe(monkeypatch, payload):
-    client_class = httpx.Client
-    def handler(_request):
-        return httpx.Response(200, json=payload)
-    monkeypatch.setattr(llm.httpx, "Client", lambda **kwargs: client_class(transport=httpx.MockTransport(handler), **kwargs))
+def test_invalid_langchain_response_is_safe(monkeypatch):
+    class InvalidChatModel:
+        def __init__(self, **_kwargs):
+            pass
+
+        def bind_tools(self, _tools, **_kwargs):
+            return self
+
+        def invoke(self, _messages):
+            return AIMessage(content="")
+
+    monkeypatch.setattr(langchain_flow, "ChatOpenAI", InvalidChatModel)
     settings = llm.ModelSettings(True, "custom", "https://test.example.com/v1", "test", "secret")
     with pytest.raises(llm.ModelError, match="格式无效"):
         llm.complete(settings, [{"role": "user", "content": "test"}])
 
 
-def test_deepseek_transport_and_safe_errors(monkeypatch):
-    client_class = httpx.Client
+def test_deepseek_langchain_adapter_and_safe_errors(monkeypatch):
     captured = []
-    def handler(request):
-        captured.append(request)
-        return httpx.Response(401, text="remote body containing secret or personal data")
-    monkeypatch.setattr(llm.httpx, "Client", lambda **kwargs: client_class(transport=httpx.MockTransport(handler), **kwargs))
+
+    class Unauthorized(Exception):
+        status_code = 401
+
+    class UnauthorizedChatModel:
+        def __init__(self, **kwargs):
+            captured.append(kwargs)
+
+        def bind_tools(self, _tools, **_kwargs):
+            return self
+
+        def invoke(self, _messages):
+            raise Unauthorized("remote body containing secret or personal data")
+
+    monkeypatch.setattr(langchain_flow, "ChatOpenAI", UnauthorizedChatModel)
     settings = llm.ModelSettings(True, "deepseek", "https://api.deepseek.com", "deepseek-flash", "secret")
     with pytest.raises(llm.ModelError) as error:
         llm.complete(settings, [{"role": "user", "content": "test"}])
     assert "remote body" not in str(error.value)
-    payload = json.loads(captured[0].content)
-    assert payload["thinking"] == {"type": "disabled"} and payload["model"] == "deepseek-flash"
-    assert captured[0].headers["Authorization"] == "Bearer secret"
+    assert captured[0]["extra_body"] == {"thinking": {"type": "disabled"}}
+    assert captured[0]["model"] == "deepseek-flash"
 
 
 def test_fresh_seed_can_include_verified_library(tmp_path):

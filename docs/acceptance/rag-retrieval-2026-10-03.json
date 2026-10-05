@@ -1,0 +1,3571 @@
+{
+  "dataset": "Fixed retrieval smoke set; not a held-out measure of general AI accuracy.",
+  "model": "BAAI/bge-small-zh-v1.5",
+  "dimension": 512,
+  "min_score": 0.65,
+  "keyword": {
+    "cases": 21,
+    "correct": 14,
+    "recall_at_5": 0.5625,
+    "top_one_accuracy": 0.5625,
+    "refusal_accuracy": 1.0,
+    "rows": [
+      {
+        "id": "weekly",
+        "question": "教育部规定每周能工作几小时？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十一条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、《办法》对校内勤工助学岗位设置有哪些要求？",
+            "method": "keyword",
+            "score": null
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "weekly",
+            "worktime"
+          ],
+          "article_numbers": [],
+          "scope": "national",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "weekly-paraphrase",
+        "question": "每礼拜能排多长的班？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、"
+          }
+        ],
+        "correct": false,
+        "top_one_correct": false,
+        "hits": [],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "monthly",
+        "question": "每月勤工助学最多几小时？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十一条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、《办法》对校内勤工助学岗位设置有哪些要求？",
+            "method": "keyword",
+            "score": null
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "monthly",
+            "worktime"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "monthly-paraphrase",
+        "question": "一整个月做多少算超了？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、"
+          }
+        ],
+        "correct": false,
+        "top_one_correct": false,
+        "hits": [],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "holiday",
+        "question": "寒暑假能延长工作时间吗？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十一条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、《办法》对校内勤工助学岗位设置有哪些要求？",
+            "method": "keyword",
+            "score": null
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "holiday",
+            "worktime"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "holiday-paraphrase",
+        "question": "放长假时能比平时多做一些吗？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、"
+          }
+        ],
+        "correct": false,
+        "top_one_correct": false,
+        "hits": [],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "fixed-pay",
+        "question": "固定岗工资怎么算？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十五条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：五、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十五条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：五、《办法》对勤工助学薪金标准有哪些要求？",
+            "method": "keyword",
+            "score": null
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "fixed",
+            "pay"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "temporary-pay",
+        "question": "临时岗按小时的工资标准是多少？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十六条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：五、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十六条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：五、《办法》对勤工助学薪金标准有哪些要求？",
+            "method": "keyword",
+            "score": null
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "pay",
+            "temporary"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "priority-paraphrase",
+        "question": "家里条件不好的人，能先获得机会吗？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第十九条"
+          },
+          {
+            "source": "S08",
+            "location": "第五条"
+          }
+        ],
+        "correct": false,
+        "top_one_correct": false,
+        "hits": [],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "study-paraphrase",
+        "question": "课余做事会不会耽误上课？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第五条"
+          },
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          }
+        ],
+        "correct": false,
+        "top_one_correct": false,
+        "hits": [],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "training-paraphrase",
+        "question": "工作前会有人教我怎么做吗？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第十八条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：三、"
+          }
+        ],
+        "correct": false,
+        "top_one_correct": false,
+        "hits": [],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "injury-paraphrase",
+        "question": "干活受了伤，由谁承担责任？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第三十条"
+          }
+        ],
+        "correct": false,
+        "top_one_correct": false,
+        "hits": [],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "off-campus",
+        "question": "我私下在校外打工，也算学校组织的吗？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第六条"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第六条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S08",
+            "location": "第二十三条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S08",
+            "location": "第二十四条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S08",
+            "location": "第二十八条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S08",
+            "location": "第二十九条",
+            "method": "keyword",
+            "score": null
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "off_campus",
+            "organization"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "outside-shop",
+        "question": "我自己找了个校外餐厅的活儿，算这个项目吗？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第六条"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第六条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S08",
+            "location": "第十五条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S08",
+            "location": "第二十三条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S08",
+            "location": "第二十四条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S08",
+            "location": "第二十七条",
+            "method": "keyword",
+            "score": null
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "off_campus"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "school-pay-missing",
+        "question": "武汉设计工程学院现在具体时薪是多少？",
+        "expected": [],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [],
+        "retrieval": {
+          "topics": [
+            "pay"
+          ],
+          "article_numbers": [],
+          "scope": "school",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "school-hardship-missing",
+        "question": "武汉设计工程学院当前困难认定有几档？",
+        "expected": [],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [],
+        "retrieval": {
+          "topics": [
+            "hardship_levels",
+            "recognition"
+          ],
+          "article_numbers": [],
+          "scope": "school",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "expired-recruitment",
+        "question": "武汉设计工程学院现在学生助理怎么报名？",
+        "expected": [],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [],
+        "retrieval": {
+          "topics": [
+            "application"
+          ],
+          "article_numbers": [],
+          "scope": "school",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [
+            "学生助理"
+          ],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S01",
+              "title": "武汉设计工程学院2026年全日制普通本、专科招生章程",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S02",
+              "title": "党委学生工作部部门概况",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "不属于指定资料名称"
+            }
+          ]
+        }
+      },
+      {
+        "id": "unrelated-quantum",
+        "question": "量子计算设备补贴的金额是多少？",
+        "expected": [],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "unrelated-sport",
+        "question": "今年足球世界杯的冠军是哪支队？",
+        "expected": [],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "article",
+        "question": "第21条怎么规定？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十一条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S01",
+            "location": "第二十一条",
+            "method": "keyword",
+            "score": null
+          }
+        ],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [
+            21
+          ],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "article_exact",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "archive-explicit",
+        "question": "2025年学生助理怎么报名？",
+        "expected": [
+          {
+            "source": "S03",
+            "location": ""
+          },
+          {
+            "source": "S04",
+            "location": ""
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S03",
+            "location": "正文第1段",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S04",
+            "location": "正文第1段",
+            "method": "keyword",
+            "score": null
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "application"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [
+            "2025"
+          ],
+          "source_ids": [],
+          "archive_requested": true,
+          "source_names": [
+            "学生助理"
+          ],
+          "labor_question": false,
+          "mode": "keyword",
+          "excluded_sources": [
+            {
+              "source_key": "S08",
+              "title": "教育部 财政部关于印发《高等学校勤工助学管理办法（2018年修订）》的通知及附件",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S01",
+              "title": "武汉设计工程学院2026年全日制普通本、专科招生章程",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S02",
+              "title": "党委学生工作部部门概况",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S09",
+              "title": "教育部财务司、全国学生资助管理中心负责人就勤工助学管理办法答记者问",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S10",
+              "title": "教育部等六部门关于做好家庭经济困难学生认定工作的指导意见",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S11",
+              "title": "教育部关于取消一批证明事项的通知",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "不属于指定资料名称"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "hybrid": {
+    "cases": 21,
+    "correct": 21,
+    "recall_at_5": 1.0,
+    "top_one_accuracy": 0.875,
+    "refusal_accuracy": 1.0,
+    "rows": [
+      {
+        "id": "weekly",
+        "question": "教育部规定每周能工作几小时？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十一条",
+            "method": "hybrid",
+            "score": 0.7971819614371092
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、《办法》对校内勤工助学岗位设置有哪些要求？",
+            "method": "hybrid",
+            "score": 0.7778623704531165
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "weekly",
+            "worktime"
+          ],
+          "article_numbers": [],
+          "scope": "national",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 2,
+          "semantic_matches": 2,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 5259,
+          "excluded_sources": [
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "weekly-paraphrase",
+        "question": "每礼拜能排多长的班？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十一条",
+            "method": "semantic",
+            "score": 0.7233363485412514
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、《办法》对校内勤工助学岗位设置有哪些要求？",
+            "method": "semantic",
+            "score": 0.6939816234306965
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：二、《办法》修订的主要内容有哪些？",
+            "method": "semantic",
+            "score": 0.692476987073129
+          },
+          {
+            "source": "S08",
+            "location": "第二十五条",
+            "method": "semantic",
+            "score": 0.688491498315798
+          },
+          {
+            "source": "S08",
+            "location": "第二十六条",
+            "method": "semantic",
+            "score": 0.6820070848438672
+          }
+        ],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 85,
+          "semantic_matches": 20,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 9,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "monthly",
+        "question": "每月勤工助学最多几小时？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十一条",
+            "method": "hybrid",
+            "score": 0.8100184673813322
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、《办法》对校内勤工助学岗位设置有哪些要求？",
+            "method": "hybrid",
+            "score": 0.7589519018205888
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "monthly",
+            "worktime"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 2,
+          "semantic_matches": 2,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 8,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "monthly-paraphrase",
+        "question": "一整个月做多少算超了？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": false,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十五条",
+            "method": "semantic",
+            "score": 0.7579286304705315
+          },
+          {
+            "source": "S08",
+            "location": "第二十一条",
+            "method": "semantic",
+            "score": 0.7437048724753181
+          },
+          {
+            "source": "S08",
+            "location": "第二十六条",
+            "method": "semantic",
+            "score": 0.7220813462692987
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：五、《办法》对勤工助学薪金标准有哪些要求？",
+            "method": "semantic",
+            "score": 0.7168639247884938
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：二、《办法》修订的主要内容有哪些？",
+            "method": "semantic",
+            "score": 0.710037413247923
+          }
+        ],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 85,
+          "semantic_matches": 20,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 8,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "holiday",
+        "question": "寒暑假能延长工作时间吗？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十一条",
+            "method": "hybrid",
+            "score": 0.7678351303694886
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、《办法》对校内勤工助学岗位设置有哪些要求？",
+            "method": "hybrid",
+            "score": 0.7627716942152859
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "holiday",
+            "worktime"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 2,
+          "semantic_matches": 2,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 9,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "holiday-paraphrase",
+        "question": "放长假时能比平时多做一些吗？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十一条",
+            "method": "semantic",
+            "score": 0.7218549109289067
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：四、《办法》对校内勤工助学岗位设置有哪些要求？",
+            "method": "semantic",
+            "score": 0.7036924083625101
+          },
+          {
+            "source": "S08",
+            "location": "第二十六条",
+            "method": "semantic",
+            "score": 0.6880909485493714
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：二、《办法》修订的主要内容有哪些？",
+            "method": "semantic",
+            "score": 0.6867726162433809
+          },
+          {
+            "source": "S08",
+            "location": "第二十五条",
+            "method": "semantic",
+            "score": 0.6785935463301015
+          }
+        ],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 85,
+          "semantic_matches": 15,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 9,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "fixed-pay",
+        "question": "固定岗工资怎么算？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十五条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：五、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十五条",
+            "method": "hybrid",
+            "score": 0.7702110336698513
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：五、《办法》对勤工助学薪金标准有哪些要求？",
+            "method": "hybrid",
+            "score": 0.7425428735311661
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "fixed",
+            "pay"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 2,
+          "semantic_matches": 2,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 8,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "temporary-pay",
+        "question": "临时岗按小时的工资标准是多少？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十六条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：五、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十六条",
+            "method": "hybrid",
+            "score": 0.8516937805166322
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：五、《办法》对勤工助学薪金标准有哪些要求？",
+            "method": "hybrid",
+            "score": 0.7612691133574916
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "pay",
+            "temporary"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 2,
+          "semantic_matches": 2,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 9,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "priority-paraphrase",
+        "question": "家里条件不好的人，能先获得机会吗？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第十九条"
+          },
+          {
+            "source": "S08",
+            "location": "第五条"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第十九条",
+            "method": "semantic",
+            "score": 0.7470804926017548
+          },
+          {
+            "source": "S08",
+            "location": "第五条",
+            "method": "semantic",
+            "score": 0.7396468209195398
+          },
+          {
+            "source": "S08",
+            "location": "第一条",
+            "method": "semantic",
+            "score": 0.6951944602306708
+          },
+          {
+            "source": "S08",
+            "location": "第十条",
+            "method": "semantic",
+            "score": 0.6945082378594263
+          },
+          {
+            "source": "S08",
+            "location": "第二十一条",
+            "method": "semantic",
+            "score": 0.6935841529789276
+          }
+        ],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 85,
+          "semantic_matches": 20,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 11,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "study-paraphrase",
+        "question": "课余做事会不会耽误上课？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第五条"
+          },
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": false,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第六条",
+            "method": "semantic",
+            "score": 0.701892763272014
+          },
+          {
+            "source": "S08",
+            "location": "第二十一条",
+            "method": "semantic",
+            "score": 0.6848133422269636
+          },
+          {
+            "source": "S08",
+            "location": "第五条",
+            "method": "semantic",
+            "score": 0.68099049121364
+          },
+          {
+            "source": "S08",
+            "location": "第二十八条",
+            "method": "semantic",
+            "score": 0.6767462765203812
+          },
+          {
+            "source": "S08",
+            "location": "第二十五条",
+            "method": "semantic",
+            "score": 0.6741283609017228
+          }
+        ],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 85,
+          "semantic_matches": 20,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 11,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "training-paraphrase",
+        "question": "工作前会有人教我怎么做吗？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第十八条"
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：三、"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S09",
+            "location": "答记者问：三、《办法》对学校在勤工助学管理方面有哪些要求？",
+            "method": "semantic",
+            "score": 0.6892494658705536
+          },
+          {
+            "source": "S08",
+            "location": "第五条",
+            "method": "semantic",
+            "score": 0.6857801221637987
+          },
+          {
+            "source": "S08",
+            "location": "第十八条",
+            "method": "semantic",
+            "score": 0.6857203905866772
+          },
+          {
+            "source": "S09",
+            "location": "答记者问：二、《办法》修订的主要内容有哪些？",
+            "method": "semantic",
+            "score": 0.6840287713020532
+          },
+          {
+            "source": "S08",
+            "location": "第六条",
+            "method": "semantic",
+            "score": 0.6833649597696787
+          }
+        ],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 85,
+          "semantic_matches": 20,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 11,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "injury-paraphrase",
+        "question": "干活受了伤，由谁承担责任？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第三十条"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第三十条",
+            "method": "semantic",
+            "score": 0.6952570326322675
+          },
+          {
+            "source": "S08",
+            "location": "第二十条",
+            "method": "semantic",
+            "score": 0.659804190744382
+          },
+          {
+            "source": "S08",
+            "location": "第六条",
+            "method": "semantic",
+            "score": 0.6567263030505994
+          }
+        ],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 85,
+          "semantic_matches": 3,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 11,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "off-campus",
+        "question": "我私下在校外打工，也算学校组织的吗？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第六条"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第六条",
+            "method": "hybrid",
+            "score": 0.7570218977960443
+          },
+          {
+            "source": "S08",
+            "location": "第二十三条",
+            "method": "hybrid",
+            "score": 0.7002683093546946
+          },
+          {
+            "source": "S08",
+            "location": "第二十八条",
+            "method": "hybrid",
+            "score": 0.7203896276210779
+          },
+          {
+            "source": "S08",
+            "location": "第二十九条",
+            "method": "hybrid",
+            "score": 0.6821401761940602
+          },
+          {
+            "source": "S08",
+            "location": "第二十四条",
+            "method": "hybrid",
+            "score": 0.6561885321105146
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "off_campus",
+            "organization"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 9,
+          "semantic_matches": 8,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 10,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "outside-shop",
+        "question": "我自己找了个校外餐厅的活儿，算这个项目吗？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第六条"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第六条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S08",
+            "location": "第十五条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S08",
+            "location": "第二十三条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S08",
+            "location": "第二十四条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S08",
+            "location": "第二十七条",
+            "method": "keyword",
+            "score": null
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "off_campus"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 9,
+          "semantic_matches": 0,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 11,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "school-pay-missing",
+        "question": "武汉设计工程学院现在具体时薪是多少？",
+        "expected": [],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [],
+        "retrieval": {
+          "topics": [
+            "pay"
+          ],
+          "article_numbers": [],
+          "scope": "school",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 0,
+          "semantic_matches": 0,
+          "index_fingerprint": null,
+          "degraded_reason": null,
+          "elapsed_ms": 3,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "school-hardship-missing",
+        "question": "武汉设计工程学院当前困难认定有几档？",
+        "expected": [],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [],
+        "retrieval": {
+          "topics": [
+            "hardship_levels",
+            "recognition"
+          ],
+          "article_numbers": [],
+          "scope": "school",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "keyword",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 0,
+          "semantic_matches": 0,
+          "index_fingerprint": null,
+          "degraded_reason": null,
+          "elapsed_ms": 2,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "expired-recruitment",
+        "question": "武汉设计工程学院现在学生助理怎么报名？",
+        "expected": [],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [],
+        "retrieval": {
+          "topics": [
+            "application"
+          ],
+          "article_numbers": [],
+          "scope": "school",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [
+            "学生助理"
+          ],
+          "labor_question": false,
+          "mode": "keyword",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 0,
+          "semantic_matches": 0,
+          "index_fingerprint": null,
+          "degraded_reason": null,
+          "elapsed_ms": 2,
+          "excluded_sources": [
+            {
+              "source_key": "S01",
+              "title": "武汉设计工程学院2026年全日制普通本、专科招生章程",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S02",
+              "title": "党委学生工作部部门概况",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "不属于指定资料名称"
+            }
+          ]
+        }
+      },
+      {
+        "id": "unrelated-quantum",
+        "question": "量子计算设备补贴的金额是多少？",
+        "expected": [],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 85,
+          "semantic_matches": 0,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 9,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "unrelated-sport",
+        "question": "今年足球世界杯的冠军是哪支队？",
+        "expected": [],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 85,
+          "semantic_matches": 0,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 13,
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "article",
+        "question": "第21条怎么规定？",
+        "expected": [
+          {
+            "source": "S08",
+            "location": "第二十一条"
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S08",
+            "location": "第二十一条",
+            "method": "keyword",
+            "score": null
+          },
+          {
+            "source": "S01",
+            "location": "第二十一条",
+            "method": "keyword",
+            "score": null
+          }
+        ],
+        "retrieval": {
+          "topics": [],
+          "article_numbers": [
+            21
+          ],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [],
+          "source_ids": [],
+          "archive_requested": false,
+          "source_names": [],
+          "labor_question": false,
+          "mode": "article_exact",
+          "excluded_sources": [
+            {
+              "source_key": "S03",
+              "title": "关于学生工作部（处）招聘学生助理的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S04",
+              "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+            }
+          ]
+        }
+      },
+      {
+        "id": "archive-explicit",
+        "question": "2025年学生助理怎么报名？",
+        "expected": [
+          {
+            "source": "S03",
+            "location": ""
+          },
+          {
+            "source": "S04",
+            "location": ""
+          }
+        ],
+        "correct": true,
+        "top_one_correct": true,
+        "hits": [
+          {
+            "source": "S03",
+            "location": "正文第1段",
+            "method": "hybrid",
+            "score": 0.6775165258577084
+          },
+          {
+            "source": "S04",
+            "location": "正文第1段",
+            "method": "hybrid",
+            "score": 0.6780508004474771
+          }
+        ],
+        "retrieval": {
+          "topics": [
+            "application"
+          ],
+          "article_numbers": [],
+          "scope": "all",
+          "used_context": false,
+          "previous_question": null,
+          "years": [
+            "2025"
+          ],
+          "source_ids": [],
+          "archive_requested": true,
+          "source_names": [
+            "学生助理"
+          ],
+          "labor_question": false,
+          "mode": "hybrid",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store": "qdrant_local",
+          "candidate_chunks": 3,
+          "semantic_matches": 3,
+          "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+          "degraded_reason": null,
+          "elapsed_ms": 7,
+          "excluded_sources": [
+            {
+              "source_key": "S08",
+              "title": "教育部 财政部关于印发《高等学校勤工助学管理办法（2018年修订）》的通知及附件",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S01",
+              "title": "武汉设计工程学院2026年全日制普通本、专科招生章程",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S02",
+              "title": "党委学生工作部部门概况",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S05",
+              "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S06",
+              "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S07",
+              "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S09",
+              "title": "教育部财务司、全国学生资助管理中心负责人就勤工助学管理办法答记者问",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S10",
+              "title": "教育部等六部门关于做好家庭经济困难学生认定工作的指导意见",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S11",
+              "title": "教育部关于取消一批证明事项的通知",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S12",
+              "title": "最低工资规定（湖北省人社厅公开转载）",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S13",
+              "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+              "reason": "不属于指定资料名称"
+            },
+            {
+              "source_key": "S14",
+              "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+              "reason": "不属于指定资料名称"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

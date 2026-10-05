@@ -1,0 +1,251 @@
+{
+  "database": "isolated SQLite with verified source bundle",
+  "cases": [
+    {
+      "question": "根据国家政策：每礼拜能排多长的班？",
+      "seconds": 7.58,
+      "mode": "model",
+      "model": "mimo-v2.6-flash",
+      "answer": "按国家《高等学校勤工助学管理办法（2018年修订）》：\n\n- **每周原则上不超过 8 小时，每月不超过 40 小时** [1][2]\n- 寒暑假期间，学校可根据具体情况适当延长勤工助学时间 [1][2]\n\n政策的出发点是\"保证学生不因参加勤工助学而影响学习\"，请在学有余力的前提下安排班次 [1][2]。\n\n需要的话，我可以帮你查看系统里当前有哪些岗位的排班符合这个时长限制。",
+      "notice": "已调用语言模型；政策来自核验原文，岗位分数和金额来自业务规则，草稿需人工确认。",
+      "retrieval": {
+        "topics": [],
+        "article_numbers": [],
+        "scope": "national",
+        "used_context": false,
+        "previous_question": null,
+        "years": [],
+        "source_ids": [],
+        "archive_requested": false,
+        "source_names": [],
+        "labor_question": false,
+        "mode": "hybrid",
+        "embedding_model": "BAAI/bge-small-zh-v1.5",
+        "store": "qdrant_local",
+        "candidate_chunks": 60,
+        "semantic_matches": 20,
+        "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+        "degraded_reason": null,
+        "elapsed_ms": 4544,
+        "excluded_sources": [
+          {
+            "source_key": "S12",
+            "title": "最低工资规定（湖北省人社厅公开转载）",
+            "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+          },
+          {
+            "source_key": "S13",
+            "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+            "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+          },
+          {
+            "source_key": "S14",
+            "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+            "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+          }
+        ]
+      },
+      "candidate_answers": [
+        "按国家《高等学校勤工助学管理办法（2018年修订）》：\n\n- **每周原则上不超过 8 小时，每月不超过 40 小时** [1][2]\n- 寒暑假期间，学校可根据具体情况适当延长勤工助学时间 [1][2]\n\n政策的出发点是\"保证学生不因参加勤工助学而影响学习\"，请在学有余力的前提下安排班次 [1][2]。\n\n需要的话，我可以帮你查看系统里当前有哪些岗位的排班符合这个时长限制。"
+      ],
+      "citations": [
+        {
+          "source_key": "S08",
+          "location": "第二十一条",
+          "method": "semantic",
+          "score": 0.7233363485412514
+        },
+        {
+          "source_key": "S09",
+          "location": "答记者问：四、《办法》对校内勤工助学岗位设置有哪些要求？",
+          "method": "semantic",
+          "score": 0.6939816234306965
+        },
+        {
+          "source_key": "S09",
+          "location": "答记者问：二、《办法》修订的主要内容有哪些？",
+          "method": "semantic",
+          "score": 0.692476987073129
+        },
+        {
+          "source_key": "S08",
+          "location": "第二十五条",
+          "method": "semantic",
+          "score": 0.688491498315798
+        },
+        {
+          "source_key": "S08",
+          "location": "第二十六条",
+          "method": "semantic",
+          "score": 0.6820070848438672
+        }
+      ]
+    },
+    {
+      "question": "校园勤工助学：工作前会有人教我怎么做吗？",
+      "seconds": 3.96,
+      "mode": "model",
+      "model": "mimo-v2.6-flash",
+      "answer": "会的。按《高等学校勤工助学管理办法（2018年修订）》，学校应\"组织学生开展必要的勤工助学岗前培训和安全教育，维护勤工助学学生的合法权益\"[3]。\n\n也就是说，上岗前你通常可以期待：\n\n- **岗前培训**：由学校（通常是资助中心或用人部门）组织，讲解岗位职责、工作流程和基本要求；\n- **安全教育**：特别是涉及仪器设备、实验室、库房等岗位，会强调操作规范和注意事项。\n\n如果录用后迟迟没有安排培训，建议先联系用人部门或学生资助中心确认。具体到你所在学校的培训时间、形式和考核要求，当前知识库未取得本校现行实施细则，需要以学校通知为准。",
+      "notice": "已调用语言模型；政策来自核验原文，岗位分数和金额来自业务规则，草稿需人工确认。",
+      "retrieval": {
+        "topics": [],
+        "article_numbers": [],
+        "scope": "all",
+        "used_context": false,
+        "previous_question": null,
+        "years": [],
+        "source_ids": [],
+        "archive_requested": false,
+        "source_names": [],
+        "labor_question": false,
+        "mode": "hybrid",
+        "embedding_model": "BAAI/bge-small-zh-v1.5",
+        "store": "qdrant_local",
+        "candidate_chunks": 85,
+        "semantic_matches": 20,
+        "index_fingerprint": "ffcd52bfa52d1e124c3d88fe12775c405070eb4cf4fd815a9e01f5d666e43992",
+        "degraded_reason": null,
+        "elapsed_ms": 9,
+        "excluded_sources": [
+          {
+            "source_key": "S03",
+            "title": "关于学生工作部（处）招聘学生助理的通知",
+            "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+          },
+          {
+            "source_key": "S04",
+            "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+            "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+          },
+          {
+            "source_key": "S05",
+            "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+            "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+          },
+          {
+            "source_key": "S06",
+            "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+            "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+          },
+          {
+            "source_key": "S07",
+            "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+            "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+          },
+          {
+            "source_key": "S12",
+            "title": "最低工资规定（湖北省人社厅公开转载）",
+            "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+          },
+          {
+            "source_key": "S13",
+            "title": "湖北省人民政府办公厅关于调整全省最低工资标准的通知",
+            "reason": "劳动关系工资资料不能充当本校勤工助学报酬规定"
+          },
+          {
+            "source_key": "S14",
+            "title": "教育部办公厅关于切实做好2025年秋季学期高校学生资助工作的通知",
+            "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+          }
+        ]
+      },
+      "candidate_answers": [
+        "会的。按《高等学校勤工助学管理办法（2018年修订）》，学校应\"组织学生开展必要的勤工助学岗前培训和安全教育，维护勤工助学学生的合法权益\"[3]。\n\n也就是说，上岗前你通常可以期待：\n\n- **岗前培训**：由学校（通常是资助中心或用人部门）组织，讲解岗位职责、工作流程和基本要求；\n- **安全教育**：特别是涉及仪器设备、实验室、库房等岗位，会强调操作规范和注意事项。\n\n如果录用后迟迟没有安排培训，建议先联系用人部门或学生资助中心确认。具体到你所在学校的培训时间、形式和考核要求，当前知识库未取得本校现行实施细则，需要以学校通知为准。"
+      ],
+      "citations": [
+        {
+          "source_key": "S09",
+          "location": "答记者问：三、《办法》对学校在勤工助学管理方面有哪些要求？",
+          "method": "semantic",
+          "score": 0.6892494658705536
+        },
+        {
+          "source_key": "S08",
+          "location": "第五条",
+          "method": "semantic",
+          "score": 0.6857801221637987
+        },
+        {
+          "source_key": "S08",
+          "location": "第十八条",
+          "method": "semantic",
+          "score": 0.6857203905866772
+        },
+        {
+          "source_key": "S09",
+          "location": "答记者问：二、《办法》修订的主要内容有哪些？",
+          "method": "semantic",
+          "score": 0.6840287713020532
+        },
+        {
+          "source_key": "S08",
+          "location": "第六条",
+          "method": "semantic",
+          "score": 0.6833649597696787
+        }
+      ]
+    },
+    {
+      "question": "本校具体时薪是多少？",
+      "seconds": 3.36,
+      "mode": "original_query",
+      "model": null,
+      "answer": "当前知识库没有可靠依据：已核验公开资料尚未确认本校具体岗位时薪。不能将国家临时岗位原则12元或劳动标准24元视为本校实际时薪，请向学校资助中心确认。\n\n本校具体时薪/酬金未取得可靠数值，国家12元原则和劳动24元标准均不能补作本校工资。",
+      "notice": "本题存在资料适用范围或证据缺口，已直接显示核验原文与边界说明。",
+      "retrieval": {
+        "topics": [
+          "pay"
+        ],
+        "article_numbers": [],
+        "scope": "school",
+        "used_context": false,
+        "previous_question": null,
+        "years": [],
+        "source_ids": [],
+        "archive_requested": false,
+        "source_names": [],
+        "labor_question": false,
+        "mode": "keyword",
+        "embedding_model": "BAAI/bge-small-zh-v1.5",
+        "store": "qdrant_local",
+        "candidate_chunks": 0,
+        "semantic_matches": 0,
+        "index_fingerprint": null,
+        "degraded_reason": null,
+        "elapsed_ms": 2,
+        "excluded_sources": [
+          {
+            "source_key": "S03",
+            "title": "关于学生工作部（处）招聘学生助理的通知",
+            "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+          },
+          {
+            "source_key": "S04",
+            "title": "学生工作部（处）学生助理申请表（2025-2026学年）",
+            "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+          },
+          {
+            "source_key": "S05",
+            "title": "武汉设计工程学院 藏龙美术馆 勤工助学岗位招聘启事",
+            "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+          },
+          {
+            "source_key": "S06",
+            "title": "关于开展2023年家庭经济困难学生认定工作的通知",
+            "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+          },
+          {
+            "source_key": "S07",
+            "title": "武汉设计工程学院家庭经济困难学生认定工作实施办法（2019年公开页面）",
+            "reason": "历史、截止或效力未确认资料仅供明确的历史查询"
+          }
+        ]
+      },
+      "candidate_answers": [
+        "关于本校具体时薪，目前**没有可靠依据可告知**：\n\n- 当前知识库尚未取得本校完整现行勤工细则和具体酬金标准，已核验公开资料中也没有确认本校各岗位的实际时薪[1]。\n- 请不要把国家临时岗位原则（12元）或劳动最低工资标准（24元）当作本校勤工助学时薪，两者都不能替代学校实际执行的工资标准[1]。\n\n**可行下一步：** 向学校学生资助中心或用工部门确认本校当前各岗位时薪；你也可以在系统内查看具体岗位详情，其中如有公布酬金会以岗位数据为准。"
+      ],
+      "citations": []
+    }
+  ]
+}

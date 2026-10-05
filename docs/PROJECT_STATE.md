@@ -1,16 +1,18 @@
 # 项目状态 · 青禾 v0.3 · MySQL与AI助手
 
-更新：2026-10-01。工作目录为 `C:\Users\XOS\Desktop\毕设\sol`，当前分支 `codex/v0.2-assistants`，v0.3改动尚未提交。既有MySQL迁移及资料核验历史见 `acceptance/REPORT-MySQL.md`；本版增量验收见 `acceptance/REPORT-v03.md`。
+更新：2026-10-04。工作目录为 `C:\Users\XOS\Desktop\毕设\sol`。既有MySQL迁移及资料核验历史见 `acceptance/REPORT-MySQL.md`；v0.3历史验收见 `acceptance/REPORT-v03.md`，RAG历史验收见 `acceptance/REPORT-RAG.md`。本轮 LangChain 迁移的当前验收单独记录在 `acceptance/REPORT-LANGCHAIN.md`，不改写历史报告。
+
+本轮已实现 LangChain 受控 RAG 与只读工具编排：`langchain-core==1.6.6` 的提示词/消息层与 `langchain-openai==1.6.7` 的 OpenAI 兼容模型适配已进入模型可用时的请求路径。FastAPI 继续执行身份、Pydantic、资源范围、工具白名单、政策/数字校验和写操作拒绝。政策/规则/工资标准/历史招聘/报名条件/学校细则强制先经 `policy.py` 的原文范围、用途、历史、时效和劳动最低工资过滤，不会用模拟岗位作政策依据；政策事实展示已核验原文和确定性边界，不保留模型自由生成结论。语义检索保持本地中文 BGE 嵌入、Qdrant 向量索引、关键词/语义融合、原文片段定位和明确降级，health check 核对 collection、维度、实际点数与 manifest 片段数。当前正式资料14份、索引155个片段。固定21题的历史开发结果为16道有依据题 Recall@5 100%、Top-1 87.5%、5道无依据题拒答5/5；该开发验收集不代表通用准确率。模型服务的实际可用性和质量以管理员状态及当前验收为准。
 
 ## 当前交付
 
 本地体验系统使用Vue3/Vite/Element Plus、FastAPI/SQLAlchemy和MySQL 8.0.45专用演示实例。保留四角色、岗位申请闭环、工时更正、计薪快照、规则匹配、审计，以及条件岗位助手和政策原文查询。v0.3新增多角色AI服务助手、对话历史、已核验资料引用、只读岗位/申请/工时工具，以及管理员模型配置页。
 
-模型配置默认DeepSeek Flash（模型ID `deepseek-flash`，接口 `https://api.deepseek.com`），也提供MiMo、阿里云百炼、OpenRouter免费路由、Ollama和兼容接口。管理员页面确认模型信息和密钥输入不会回显；当前没有可用密钥，真实服务商对话未实测。未配置模型时仍可使用本地原文检索和业务查询，并明确显示回答模式。
+模型配置预设DeepSeek Flash，也提供MiMo、阿里云百炼、OpenRouter免费路由、Ollama和兼容接口。管理员页面密钥输入不会回显。未配置回答模型时仍可使用本地语义原文检索和业务查询，并明确显示回答模式。
 
 研究目录14份已核验官方资料已导入正式MySQL。导入验收备份了数据库，新增0份、更新1份、未变化13份；业务表哈希未变。S09教育部答记者问现拆为导语加六个问答片段，正式库周工时检索命中第四问356字，未新增聊天记录。学校2026章程确认已建立勤工助学制度；公开招聘资料已截止。本校现行实施细则、具体勤工酬金及2020困难认定办法全文尚未取得。不得把历史招聘、国家原则标准或劳动最低工资当作本校现行规定。
 
-本版隔离SQLite全量为146 passed、5 skipped；隔离MySQL AI/知识库专项51 passed；Ruff、前端lint和production build通过。完整在线模型效果仍待本机填写用户自己的密钥后评测。MySQL应用实例绑定127.0.0.1:13308；现有3306 MySQL服务未改动。启动、停止、备份和复位流程见README与MYSQL.md。
+v0.3历史隔离SQLite为146 passed、5 skipped；新增RAG后的历史回归见REPORT-RAG.md。默认 pytest 会先加载根 `tests/conftest.py` 并间接导入正常 `app.config`，因此隔离安全测试会跳过，不计入默认全量测试覆盖。本轮使用 `--noconftest` 与 fake config，在临时 SQLite、`tmp_path` 和 mock 下实际执行安全测试72项、LangChain mock 测试3项；Ruff 和前端 lint 通过。普通全量 pytest、依赖正常 conftest 的既有 `test_agent.py`/`test_rag.py`、MySQL 评测和真实模型请求未运行，未读取项目 `.env`。详细命令及历史记录见REPORT-LANGCHAIN.md。在线MiMo已有历史样例，完整质量评测仍待更多独立问题集验证。MySQL应用实例绑定127.0.0.1:13308；启动、停止、备份和复位流程见README与MYSQL.md。
 
 ## 与总计划 v1.1 的对应
 
@@ -24,8 +26,8 @@
 | 政策查询 | 已导入14份资料，范围与时效过滤、主题/条款检索、有限追问和引用 | `research/VERIFIED_SOURCES_2026-10-01.md`、`test_policy_sources.py` |
 | S09问答切片 | 已完成导入与正式MySQL只读验证 | 七个原文片段；周工时问题仅返回对应问答 |
 | MySQL 8 | 已迁移正式演示数据并完成启动/备份/恢复验证 | `acceptance/REPORT-MySQL.md`、`mysql-migration.json`、`mysql-restore.json` |
-| AI服务助手 | 多角色对话、工具调用、用户隔离历史、带来源回答和管理员模型配置已实现 | `AI_ASSISTANT.md`；真实模型连接待有效密钥 |
-| RAG检索形态 | 当前为可解释主题/词项检索后交给LLM组织回答 | 尚无向量嵌入、BGE或Chroma；不能写成已完成向量RAG |
+| AI服务助手 | LangChain 编排的多角色对话、固定只读工具描述、用户隔离历史、原文政策回答和管理员模型配置已实现 | FastAPI 是工具执行与权限边界；上下文仅在双方已验证、紧邻上一条且身份完全相同的模型之间复用，旧记录不追溯信任；当前代码/测试见 `langchain_flow.py`、`test_langchain_flow.py`、REPORT-LANGCHAIN.md |
+| RAG检索形态 | 本地 BGE 512 维嵌入、Qdrant 索引、关键词/语义融合；政策结论由已核验原文摘录确定 | 精确条款与范围/时效校验保留；collection、维度、点数或查询异常时显式关键词降级；见 RAG.md 及 REPORT-LANGCHAIN.md |
 | 条件岗位助手 | 已实施规则版，读取当前权限范围岗位并展示条件及分数依据 | `test_assistant.py`；实际申请仍由用户在原业务页确认 |
 | 本地启动、种子与复位 | 已实现并实测 | 根目录批处理、`scripts`、隔离重置回归 |
 | 浏览器与移动体验 | v0.2桌面/手机主流程已验收；v0.3管理员AI配置页已检查 | 历史截图见`acceptance/REPORT-v02.md`；本版具体检查见`REPORT-v03.md` |
@@ -35,8 +37,8 @@
 ## 继续迭代
 
 1. 收集用户对AI助手和核心闭环的体验反馈，按实际问题修正交互。
-2. 由管理员在本机配置有效模型密钥并做真实端到端验证，分别记录自然语言找岗、引用问答、工具调用、错误降级和跨服务商切换结果。
-3. 如毕业设计目标需要语义检索，冻结评测集后再接入嵌入模型和向量库，并单独开展知识库内问题与拒答评测；当前词项检索测试不计作向量RAG成绩。
+2. 扩展现有在线样例，分别记录自然语言找岗、引用问答、工具调用、错误降级和跨服务商切换结果。
+3. 在固定RAG开发验收集之外增加独立问题集，进一步检验复杂表达、检索排序、拒答与引用支持率；开发验收集不当作通用准确率。
 4. 继续寻找本校现行勤工助学实施办法、武设院[2020]21号全文和现行酬金表。取得可靠材料后再更新业务口径。
 5. 完成导师要求核对、需求追踪、演示录屏、论文图表及总计划范围的完整验收。
 

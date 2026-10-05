@@ -8,10 +8,10 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy import select
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from . import config, schemas as s
+from . import config, rag, schemas as s
 from .assistant import assistant_history, assistant_reply
 from .agent import agent_conversations, agent_history, agent_reply
 from .agent_schemas import AISettingsInput, AgentQuestion
@@ -32,7 +32,10 @@ async def lifespan(_app):
     if len(config.JWT_SECRET) < 32:
         raise RuntimeError("请先从 backend 运行 uv run python -m app.seed 初始化本地环境")
     Base.metadata.create_all(engine)
-    yield
+    try:
+        yield
+    finally:
+        rag.close_indexes()
 
 
 app = FastAPI(title="青禾 · 校园勤工助学", version=config.VERSION, lifespan=lifespan)
@@ -58,6 +61,17 @@ async def validation_error(_request, error):
 @app.exception_handler(IntegrityError)
 async def integrity_error(_request, _error):
     return JSONResponse(status_code=409, content={"error": "conflict", "message": "记录已存在或已被更新，请刷新后重试"})
+
+
+async def database_unavailable(_request, _error):
+    """Do not expose connection strings, SQL, or driver details to API clients."""
+    return JSONResponse(status_code=503, content={"error": "unavailable", "message": "数据库暂不可用，请稍后重试。"})
+
+
+# IntegrityError has a more specific handler above. This covers SQLAlchemy
+# connection and execution failures without converting HTTP authorization
+# errors into 503s.
+app.add_exception_handler(SQLAlchemyError, database_unavailable)
 
 
 @app.get("/api/ping")
@@ -598,7 +612,7 @@ def query_conversations(user: User = Depends(current_user), db: Session = Depend
 
 @app.get("/api/agent/status")
 def ai_status(_user: User = Depends(current_user)):
-    return agent_status()
+    return {**agent_status(), "knowledge": rag.status()}
 
 
 @app.post("/api/agent/messages")
@@ -638,4 +652,27 @@ def ai_connection_test(user: User = Depends(current_user), db: Session = Depends
     db.commit()  # Never hold the auth/SQLite write transaction across a network request.
     result = test_connection()
     audit(db, user, "ai.connection_test", "ai_settings", None, after=result)
+    return result
+
+
+@app.get("/api/admin/rag/status")
+def rag_status(user: User = Depends(current_user), db: Session = Depends(get_db)):
+    require(user, "admin")
+    documents = list(db.scalars(select(PolicyDoc).where(PolicyDoc.verified.is_(True))))
+    return rag.status(rag.chunks_for_documents(documents))
+
+
+@app.post("/api/admin/rag/rebuild")
+def rag_rebuild(user: User = Depends(current_user), db: Session = Depends(get_db)):
+    require(user, "admin")
+    documents = list(db.scalars(select(PolicyDoc).where(PolicyDoc.verified.is_(True))))
+    db.commit()
+    try:
+        result = rag.rebuild(documents)
+    except rag.RagUnavailable as error:
+        messages = {"disabled": "语义检索尚未启用", "empty_knowledge": "没有已核验的政策原文",
+                    "model_unavailable": "本地语义模型尚未准备，请先完成RAG初始化"}
+        raise HTTPException(503, messages.get(error.reason, "语义索引暂不可用，请检查本地知识库状态")) from None
+    audit(db, user, "rag.index_rebuild", "policy_index", None,
+          after={key: result[key] for key in ("model", "documents", "chunks", "fingerprint")})
     return result

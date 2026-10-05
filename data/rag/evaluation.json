@@ -1,0 +1,238 @@
+{
+  "description": "Fixed retrieval smoke set; not a held-out measure of general AI accuracy.",
+  "cases": [
+    {
+      "id": "weekly",
+      "question": "教育部规定每周能工作几小时？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第二十一条"
+        },
+        {
+          "source": "S09",
+          "location": "答记者问：四、"
+        }
+      ]
+    },
+    {
+      "id": "weekly-paraphrase",
+      "question": "每礼拜能排多长的班？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第二十一条"
+        },
+        {
+          "source": "S09",
+          "location": "答记者问：四、"
+        }
+      ]
+    },
+    {
+      "id": "monthly",
+      "question": "每月勤工助学最多几小时？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第二十一条"
+        },
+        {
+          "source": "S09",
+          "location": "答记者问：四、"
+        }
+      ]
+    },
+    {
+      "id": "monthly-paraphrase",
+      "question": "一整个月做多少算超了？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第二十一条"
+        },
+        {
+          "source": "S09",
+          "location": "答记者问：四、"
+        }
+      ]
+    },
+    {
+      "id": "holiday",
+      "question": "寒暑假能延长工作时间吗？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第二十一条"
+        },
+        {
+          "source": "S09",
+          "location": "答记者问：四、"
+        }
+      ]
+    },
+    {
+      "id": "holiday-paraphrase",
+      "question": "放长假时能比平时多做一些吗？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第二十一条"
+        },
+        {
+          "source": "S09",
+          "location": "答记者问：四、"
+        }
+      ]
+    },
+    {
+      "id": "fixed-pay",
+      "question": "固定岗工资怎么算？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第二十五条"
+        },
+        {
+          "source": "S09",
+          "location": "答记者问：五、"
+        }
+      ]
+    },
+    {
+      "id": "temporary-pay",
+      "question": "临时岗按小时的工资标准是多少？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第二十六条"
+        },
+        {
+          "source": "S09",
+          "location": "答记者问：五、"
+        }
+      ]
+    },
+    {
+      "id": "priority-paraphrase",
+      "question": "家里条件不好的人，能先获得机会吗？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第十九条"
+        },
+        {
+          "source": "S08",
+          "location": "第五条"
+        }
+      ]
+    },
+    {
+      "id": "study-paraphrase",
+      "question": "课余做事会不会耽误上课？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第五条"
+        },
+        {
+          "source": "S08",
+          "location": "第二十一条"
+        }
+      ]
+    },
+    {
+      "id": "training-paraphrase",
+      "question": "工作前会有人教我怎么做吗？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第十八条"
+        },
+        {
+          "source": "S09",
+          "location": "答记者问：三、"
+        }
+      ]
+    },
+    {
+      "id": "injury-paraphrase",
+      "question": "干活受了伤，由谁承担责任？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第三十条"
+        }
+      ]
+    },
+    {
+      "id": "off-campus",
+      "question": "我私下在校外打工，也算学校组织的吗？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第六条"
+        }
+      ]
+    },
+    {
+      "id": "outside-shop",
+      "question": "我自己找了个校外餐厅的活儿，算这个项目吗？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第六条"
+        }
+      ]
+    },
+    {
+      "id": "school-pay-missing",
+      "question": "武汉设计工程学院现在具体时薪是多少？",
+      "expected": []
+    },
+    {
+      "id": "school-hardship-missing",
+      "question": "武汉设计工程学院当前困难认定有几档？",
+      "expected": []
+    },
+    {
+      "id": "expired-recruitment",
+      "question": "武汉设计工程学院现在学生助理怎么报名？",
+      "expected": []
+    },
+    {
+      "id": "unrelated-quantum",
+      "question": "量子计算设备补贴的金额是多少？",
+      "expected": []
+    },
+    {
+      "id": "unrelated-sport",
+      "question": "今年足球世界杯的冠军是哪支队？",
+      "expected": []
+    },
+    {
+      "id": "article",
+      "question": "第21条怎么规定？",
+      "expected": [
+        {
+          "source": "S08",
+          "location": "第二十一条"
+        }
+      ]
+    },
+    {
+      "id": "archive-explicit",
+      "question": "2025年学生助理怎么报名？",
+      "expected": [
+        {
+          "source": "S03",
+          "location": ""
+        },
+        {
+          "source": "S04",
+          "location": ""
+        }
+      ]
+    }
+  ]
+}

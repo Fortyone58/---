@@ -9,7 +9,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import urlsplit
 
-import httpx
 from dotenv import dotenv_values, set_key
 from fastapi import HTTPException
 
@@ -87,11 +86,12 @@ def public_settings(settings=None):
 def agent_status(settings=None):
     settings = settings or get_settings()
     ready = settings.enabled and settings.configured
-    notice = ("已配置模型；对话会检索原文和授权范围内业务数据，实际结果以每次回答模式为准。" if ready else
+    notice = ("已配置模型；LangChain 会编排已核验原文和授权范围内的只读工具，实际结果以每次回答模式为准。" if ready else
               "原文与业务查询模式：尚未启用可用模型，当前结果由系统检索生成。管理员可在 AI 配置中接入。")
     return {"enabled": settings.enabled, "configured": settings.configured,
             "connection_verified": settings.verified, "provider": settings.provider,
             "model": settings.model, "mode": "model" if ready else "original_query",
+            "orchestration": "langchain_controlled_rag" if ready else "source_and_rules_fallback",
             "max_message_length": 1800, "notice": notice}
 
 
@@ -149,63 +149,18 @@ class ModelError(Exception):
 
 
 def complete(settings, messages, tools=None, timeout=25):
-    # Validate .env inputs as well as values saved by the admin form.
+    # Validate private configuration before the request enters LangChain.
     try:
         AISettingsInput(enabled=settings.enabled, provider=settings.provider,
                         base_url=settings.base_url, model=settings.model)
     except ValueError:
         raise ModelError("protocol") from None
-    payload = {"model": settings.model, "messages": messages, "stream": False, "max_tokens": 1800}
-    if tools:
-        payload.update(tools=tools, tool_choice="auto")
-    if settings.provider == "deepseek":
-        payload["thinking"] = {"type": "disabled"}
-    headers = {"Content-Type": "application/json"}
-    if settings.api_key:
-        headers["Authorization"] = f"Bearer {settings.api_key}"
+    from . import langchain_flow
+
     try:
-        with httpx.Client(timeout=max(0.1, min(timeout, 25)), follow_redirects=False) as client:
-            response = client.post(settings.base_url + "/chat/completions", json=payload, headers=headers)
-    except httpx.TimeoutException:
-        raise ModelError("timeout") from None
-    except httpx.RequestError:
-        raise ModelError("network") from None
-    if response.status_code != 200:
-        kind = {401: "auth", 403: "auth", 429: "quota", 400: "protocol", 404: "protocol"}.get(
-            response.status_code, "service")
-        raise ModelError(kind)
-    if len(response.content) > 300_000:
-        raise ModelError("invalid")
-    try:
-        choice = response.json()["choices"][0]
-        if not isinstance(choice, dict):
-            raise ValueError
-        message = choice["message"]
-        if not isinstance(message, dict):
-            raise ValueError
-        content = message.get("content")
-        calls = message.get("tool_calls") or []
-        if choice.get("finish_reason") == "length" or (content is not None and
-                (not isinstance(content, str) or len(content) > 16_000)) or not isinstance(calls, list) or len(calls) > 6:
-            raise ValueError
-        clean = {"role": "assistant", "content": content}
-        if calls:
-            clean["tool_calls"] = []
-            for call in calls:
-                function = call["function"]
-                if (not isinstance(call["id"], str) or len(call["id"]) > 100 or
-                        not isinstance(function["name"], str) or len(function["name"]) > 64 or
-                        not isinstance(function["arguments"], str) or len(function["arguments"]) > 6000):
-                    raise ValueError
-                clean["tool_calls"].append({"id": call["id"], "type": "function", "function": function})
-        if not calls and not content:
-            raise ValueError
-        # Some compatible thinking models require this field on subsequent tool turns.
-        if isinstance(message.get("reasoning_content"), str):
-            clean["reasoning_content"] = message["reasoning_content"][:30_000]
-        return clean
-    except (ValueError, KeyError, IndexError, TypeError):
-        raise ModelError("invalid") from None
+        return langchain_flow.complete(settings, messages, tools=tools, timeout=timeout)
+    except langchain_flow.LangChainFlowError as error:
+        raise ModelError(error.kind) from None
 
 
 def test_connection():

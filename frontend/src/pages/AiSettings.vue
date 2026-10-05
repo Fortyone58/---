@@ -1,11 +1,13 @@
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
-import { api, state } from '../api'
+import { api, formatDate, state } from '../api'
 import Icon from '../components/Icon.vue'
 import '../agent.css'
 
 const saved = ref(null), loading = ref(true), busy = ref(false), testing = ref(false), error = ref(''), success = ref(''), testResult = ref(null)
 const form = reactive({ enabled: false, provider: 'deepseek', base_url: '', model: '', api_key: '', clear_api_key: false })
+const knowledge = ref(null), rebuilding = ref(false), knowledgeError = ref('')
+const knowledgeLabel = computed(() => ({ ready: '语义索引可用', stale: '原文已更新', disabled: '语义检索已关闭', not_ready: '尚未建立语义索引', unavailable: '语义检索暂不可用' }[knowledge.value?.state] || '正在读取知识库'))
 const fallbackPresets = [
   { id: 'deepseek', label: 'DeepSeek' }, { id: 'mimo', label: '小米 MiMo' },
   { id: 'bailian', label: '阿里云百炼' }, { id: 'custom', label: '其他 OpenAI 兼容接口' }, { id: 'ollama', label: '本机 Ollama' },
@@ -65,7 +67,23 @@ async function testConnection() {
   finally { clearTimeout(timer); testing.value = false }
 }
 function safeDocsUrl(value) { try { const url = new URL(value); return url.protocol === 'https:' ? url.href : null } catch { return null } }
+async function refreshKnowledge() {
+  knowledgeError.value = ''
+  try { knowledge.value = await api('/admin/rag/status') }
+  catch (value) { knowledgeError.value = readableError(value) }
+}
+async function rebuildKnowledge() {
+  if (rebuilding.value) return
+  rebuilding.value = true
+  knowledgeError.value = ''
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), 120000)
+  try { knowledge.value = await api('/admin/rag/rebuild', { method: 'POST', body: {}, signal: controller.signal }) }
+  catch (value) { knowledgeError.value = value.name === 'AbortError' ? '索引重建仍可能在处理，请刷新状态后核对。' : readableError(value) }
+  finally { clearTimeout(timer); rebuilding.value = false }
+}
 onMounted(async () => {
+  await refreshKnowledge()
   try { applySettings(await api('/admin/ai/settings')) }
   catch (value) { error.value = readableError(value) }
   finally { loading.value = false }
@@ -91,5 +109,11 @@ onMounted(async () => {
       </form>
       <aside class="ai-config-aside"><section class="panel"><span class="agent-bot-mark"><Icon name="sparkles" :size="25" /></span><h3>三步开始 AI 对话</h3><ol class="ai-setup-steps"><li><span>01</span><div><b>选择服务商与模型</b><p>从官方控制台确认模型 ID 和接口地址，模型名称可以随时修改。</p></div></li><li><span>02</span><div><b>填写密钥，保存并测试</b><p>密钥留空只保留同一服务已有密钥。连接测试成功后再开始体验。</p></div></li><li><span>03</span><div><b>打开助手，试着提问</b><p>先查政策，再用自然语言找岗位；同一对话中可继续追问。</p></div></li></ol><router-link to="/chat" class="text-button">开始一段校园服务对话<Icon name="right" :size="15" /></router-link></section><section class="panel ai-config-boundary"><h3>模型与业务工具各司其职</h3><p>模型负责理解问题、选择工具、解释结果和起草文案。政策原文、岗位状态和薪酬统计来自已收录资料与业务系统。</p><p>AI 工具读取当前账号权限范围的数据；申请、审批、困难认定和工时修改由人在对应页面完成。</p><div class="notice neutral"><Icon name="info" :size="17" /><span>远程模型会收到当前问题及回答所需的少量模拟业务数据。此原型使用演示数据，请勿提交真实学生的个人信息。</span></div><div class="notice neutral"><Icon name="info" :size="17" /><span>关闭模型或接口不可用时，助手会清楚标注“原文与业务查询”。是否调用模型，以每条回答的模式标记为准。</span></div></section></aside>
     </div>
+    <section class="rag-index-section" aria-labelledby="rag-heading">
+      <div class="panel-heading"><div><h3 id="rag-heading">政策知识库</h3><span class="caption">{{ knowledge?.model || '本地语义模型' }}</span></div><span class="outline-pill"><span class="live-dot" :class="{ 'agent-dot-muted': !knowledge?.ready }"></span>{{ knowledgeLabel }}</span></div>
+      <dl class="rag-index-stats"><div><dt>已索引资料</dt><dd>{{ knowledge?.documents ?? '—' }}<small>份</small></dd></div><div><dt>检索片段</dt><dd>{{ knowledge?.chunks ?? '—' }}<small>段</small></dd></div><div><dt>最近更新</dt><dd class="rag-index-date">{{ formatDate(knowledge?.built_at) }}</dd></div></dl>
+      <div class="rag-index-actions"><button class="btn btn-secondary" :disabled="rebuilding" @click="refreshKnowledge"><Icon name="refresh" :size="17" />刷新状态</button><button class="btn btn-primary" :disabled="rebuilding || !knowledge?.enabled" @click="rebuildKnowledge"><Icon :name="rebuilding ? 'hourglass' : 'book'" :size="17" />{{ rebuilding ? '正在重建…' : '重建索引' }}</button></div>
+      <p v-if="knowledgeError" class="rag-index-error" role="alert">{{ knowledgeError }}</p>
+    </section>
   </div>
 </template>
